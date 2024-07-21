@@ -148,8 +148,8 @@ const Top = () => {
 				<Link href={'/property'}>
 					<div>{t('Properties')}</div>
 				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
+				<Link href={'/dealer'}>
+					<div> {t('Dealers')} </div>
 				</Link>
 				<Link href={'/community?articleCategory=FREE'}>
 					<div> {t('Community')} </div>
@@ -165,8 +165,14 @@ const Top = () => {
 				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
 						<Box component={'div'} className={'logo-box'}>
-							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
+							<Link
+								href={'/'}
+								style={{ display: 'flex', alignItems: 'center', fontSize: '25px', color: 'white', fontWeight: '700' }}
+							>
+								<img src="/img/logo/logo.png" alt="" />
+								<Box>
+									<span>Go</span>Car
+								</Box>
 							</Link>
 						</Box>
 						<Box component={'div'} className={'router-box'}>
@@ -176,8 +182,8 @@ const Top = () => {
 							<Link href={'/property'}>
 								<div>{t('Properties')}</div>
 							</Link>
-							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
+							<Link href={'/dealer'}>
+								<div> {t('Dealers')} </div>
 							</Link>
 							<Link href={'/community?articleCategory=FREE'}>
 								<div> {t('Community')} </div>
