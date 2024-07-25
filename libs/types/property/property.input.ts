@@ -1,33 +1,50 @@
-import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
+import {
+	PropertyDomestic,
+	PropertyFuel,
+	PropertyImported,
+	PropertyLocation,
+	PropertyManufacture,
+	PropertyOptions,
+	PropertyStatus,
+	PropertyTransmission,
+	PropertyType,
+} from '../../enums/property.enum';
 import { Direction } from '../../enums/common.enum';
 
 export interface PropertyInput {
 	propertyType: PropertyType;
+	propertyFuel: PropertyFuel;
+	propertyTransmission: PropertyTransmission;
+	propertyOptions: PropertyOptions[];
+	propertyManufacture: PropertyManufacture;
+	propertyDomestic?: PropertyDomestic;
+	propertyImported?: PropertyImported;
 	propertyLocation: PropertyLocation;
 	propertyAddress: string;
 	propertyTitle: string;
 	propertyPrice: number;
-	propertySquare: number;
-	propertyBeds: number;
-	propertyRooms: number;
+	propertyModel: string;
+	propertyManufacturedYear: number;
+	propertyRegistrationDate: Date;
+	propertyEngineDisplacement: number;
+	propertyDrivenDistance: number;
 	propertyImages: string[];
 	propertyDesc?: string;
-	propertyBarter?: boolean;
 	propertyRent?: boolean;
 	memberId?: string;
-	constructedAt?: Date;
 }
 
 interface PISearch {
 	memberId?: string;
 	locationList?: PropertyLocation[];
 	typeList?: PropertyType[];
-	roomsList?: Number[];
+	fuelList?: PropertyFuel[];
+	transmissionList?: PropertyTransmission[];
 	options?: string[];
-	bedsList?: Number[];
+	manufacture?: PropertyManufacture;
 	pricesRange?: Range;
-	periodsRange?: PeriodsRange;
-	squaresRange?: Range;
+	manufacturedYearRange?: ManufacturedYearRange;
+	drivenDistanceRange?: DrivenDistanceRange;
 	text?: string;
 }
 
@@ -39,16 +56,16 @@ export interface PropertiesInquiry {
 	search: PISearch;
 }
 
-interface APISearch {
+interface DPISearch {
 	propertyStatus?: PropertyStatus;
 }
 
-export interface AgentPropertiesInquiry {
+export interface DealerPropertiesInquiry {
 	page: number;
 	limit: number;
 	sort?: string;
 	direction?: Direction;
-	search: APISearch;
+	search: DPISearch;
 }
 
 interface ALPISearch {
@@ -69,7 +86,12 @@ interface Range {
 	end: number;
 }
 
-interface PeriodsRange {
-	start: Date | number;
-	end: Date | number;
+interface DrivenDistanceRange {
+	start: number;
+	end: number;
+}
+
+interface ManufacturedYearRange {
+	start: number;
+	end: number;
 }
