@@ -84,17 +84,26 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 					<strong className={'title'}>{property.propertyTitle}</strong>
 					<p className={'desc'}>{property.propertyDesc ?? 'no description'}</p>
 					<div className={'options'}>
-						<div>
-							<img src="/img/icons/diriven.png" alt="" />
-							<span>{property.propertyDrivenDistance} km</span>
+						<div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+							<div>
+								<img src="/img/icons/diriven.png" alt="" />
+								<span>{property.propertyDrivenDistance} km</span>
+							</div>
+							<div>
+								<img src="/img/icons/transmission.png" alt="" />
+								<span>{property.propertyTransmission} </span>
+							</div>
 						</div>
-						<div>
-							<img src="/img/icons/transmission.png" alt="" />
-							<span>{property.propertyTransmission} </span>
-						</div>
-						<div>
-							<img src="/img/icons/fuel.png" alt="" />
-							<span>{property.propertyFuel} </span>
+						<div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+							<div>
+								<img src="/img/icons/fuel.png" alt="" />
+								<span>{property.propertyFuel} </span>
+							</div>
+
+							<div>
+								<img src="/img/icons/year.png" alt="" />
+								<span>{property.propertyManufacturedYear} </span>
+							</div>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
