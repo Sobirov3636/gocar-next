@@ -612,7 +612,7 @@
 					flex-direction: row;
 					.top-property-swiper {
 						width: 100%;
-						height: 400px;
+						height: 410px;
 						display: flex;
 						flex-direction: row;
 						.top-property-slide {
@@ -628,6 +628,7 @@
 						height: 375px;
 						display: flex;
 						flex-direction: column;
+						margin-bottom: 5px;
 						transition: transform 0.3s;
 						&:hover {
 							opacity: 1;
@@ -638,15 +639,15 @@
 							width: 100%;
 							height: 203px;
 							background-size: cover;
-							border-radius: 12px 12px 0px 0px;
+							border-radius: 12px 12px 0 0;
 							cursor: pointer;
 							div {
 								position: absolute;
 								padding: 8px 12px;
 								left: 12px;
-								bottom: 12px;
-								border-radius: 6px;
-								background: #fff;
+								bottom: 20px;
+								border-radius: 20px;
+								background: #edd3f0;
 								color: #181a20;
 								font-family: $font;
 								font-size: 15px;
@@ -656,11 +657,15 @@
 							}
 						}
 						.info {
+							position: absolute;
+							width: 300px;
+							top: 190px;
+							left: 0;
 							padding: 20px 22px 17px;
 							display: flex;
 							flex-direction: column;
 							box-sizing: border-box;
-							border-radius: 0px 0px 12px 12px;
+							border-radius: 12px;
 							border: 1px solid rgba(196, 196, 196, 0.71);
 							border-top: none;
 							background: #fff;

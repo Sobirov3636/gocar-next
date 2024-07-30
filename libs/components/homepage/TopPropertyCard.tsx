@@ -36,26 +36,31 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					<strong className={'title'}>{property?.propertyTitle}</strong>
 					<p className={'desc'}>{property?.propertyAddress}</p>
 					<div className={'options'}>
-						<div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property?.propertyBeds} bed</span>
+						<div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+							<div>
+								<img src="/img/icons/diriven.png" alt="" />
+								<span>{property.propertyDrivenDistance} km</span>
+							</div>
+							<div>
+								<img src="/img/icons/transmission.png" alt="" />
+								<span>{property.propertyTransmission} </span>
+							</div>
 						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
-						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
+						<div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+							<div>
+								<img src="/img/icons/fuel.png" alt="" />
+								<span>{property.propertyFuel} </span>
+							</div>
+
+							<div>
+								<img src="/img/icons/year.png" alt="" />
+								<span>{property.propertyManufacturedYear} </span>
+							</div>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
-						<p>
-							{' '}
-							{property.propertyRent ? 'Rent' : ''} {property.propertyRent && property.propertyBarter && '/'}{' '}
-							{property.propertyBarter ? 'Barter' : ''}
-						</p>
+						<p> {property.propertyRent ? 'Rent' : ''}</p>
 						<div className="view-like-box">
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
@@ -86,28 +91,41 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong className={'title'}>{property?.propertyTitle}</strong>
-					<p className={'desc'}>{property?.propertyAddress}</p>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
+						<img
+							className="location-img"
+							style={{ width: '20px', height: '20px' }}
+							src="/img/icons/location.webp"
+							alt=""
+						/>
+						<p className={'desc'}>{property.propertyAddress}</p>
+					</div>
 					<div className={'options'}>
-						<div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property?.propertyBeds} bed</span>
+						<div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+							<div>
+								<img src="/img/icons/diriven.png" alt="" />
+								<span>{property.propertyDrivenDistance} km</span>
+							</div>
+							<div>
+								<img src="/img/icons/transmission.png" alt="" />
+								<span>{property.propertyTransmission} </span>
+							</div>
 						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
-						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
+						<div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
+							<div>
+								<img src="/img/icons/fuel.png" alt="" />
+								<span>{property.propertyFuel} </span>
+							</div>
+
+							<div>
+								<img src="/img/icons/year.png" alt="" />
+								<span>{property.propertyManufacturedYear} </span>
+							</div>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
-						<p>
-							{' '}
-							{property.propertyRent ? 'Rent' : ''} {property.propertyRent && property.propertyBarter && '/'}{' '}
-							{property.propertyBarter ? 'Barter' : ''}
-						</p>
+						<p> {property.propertyRent ? 'Rent' : ''}</p>
 						<div className="view-like-box">
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
