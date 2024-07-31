@@ -10,32 +10,32 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
-interface AgentCardProps {
-	agent: any;
+interface DealerCardProps {
+	dealer: any;
 }
 
-const AgentCard = (props: AgentCardProps) => {
-	const { agent } = props;
+const DealerCard = (props: DealerCardProps) => {
+	const { dealer } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent?.memberImage}`
+	const imagePath: string = dealer?.memberImage
+		? `${REACT_APP_API_URL}/${dealer?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	if (device === 'mobile') {
-		return <div>AGENT CARD</div>;
+		return <div>DEALER CARD</div>;
 	} else {
 		return (
-			<Stack className="agent-general-card">
+			<Stack className="dealer-general-card">
 				<Link
 					href={{
-						pathname: '/agent/detail',
-						query: { agentId: agent?._id },
+						pathname: '/dealer/detail',
+						query: { dealerId: dealer?._id },
 					}}
 				>
 					<Box
 						component={'div'}
-						className={'agent-img'}
+						className={'dealer-img'}
 						style={{
 							backgroundImage: `url(${imagePath})`,
 							backgroundSize: 'cover',
@@ -43,35 +43,35 @@ const AgentCard = (props: AgentCardProps) => {
 							backgroundRepeat: 'no-repeat',
 						}}
 					>
-						<div>{agent?.memberProperties} properties</div>
+						<div>{dealer?.memberProperties} properties</div>
 					</Box>
 				</Link>
 
-				<Stack className={'agent-desc'}>
-					<Box component={'div'} className={'agent-info'}>
+				<Stack className={'dealer-desc'}>
+					<Box component={'div'} className={'dealer-info'}>
 						<Link
 							href={{
-								pathname: '/agent/detail',
-								query: { agentId: 'id' },
+								pathname: '/dealer/detail',
+								query: { dealerId: 'id' },
 							}}
 						>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+							<strong>{dealer?.memberFullName ?? dealer?.memberNick}</strong>
 						</Link>
-						<span>Agent</span>
+						<span>Dealer</span>
 					</Box>
 					<Box component={'div'} className={'buttons'}>
 						<IconButton color={'default'}>
 							<RemoveRedEyeIcon />
 						</IconButton>
-						<Typography className="view-cnt">{agent?.memberViews}</Typography>
+						<Typography className="view-cnt">{dealer?.memberViews}</Typography>
 						<IconButton color={'default'}>
-							{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
+							{dealer?.meLiked && dealer?.meLiked[0]?.myFavorite ? (
 								<FavoriteIcon color={'primary'} />
 							) : (
 								<FavoriteBorderIcon />
 							)}
 						</IconButton>
-						<Typography className="view-cnt">{agent?.memberLikes}</Typography>
+						<Typography className="view-cnt">{dealer?.memberLikes}</Typography>
 					</Box>
 				</Stack>
 			</Stack>
@@ -79,4 +79,4 @@ const AgentCard = (props: AgentCardProps) => {
 	}
 };
 
-export default AgentCard;
+export default DealerCard;

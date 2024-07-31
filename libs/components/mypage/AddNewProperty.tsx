@@ -119,7 +119,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 	const updatePropertyHandler = useCallback(async () => {}, [insertPropertyData]);
 
-	if (user?.memberType !== 'AGENT') {
+	if (user?.memberType !== 'DEALER') {
 		router.back();
 	}
 

@@ -5,7 +5,7 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Stack, Box, Button, Pagination } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import AgentCard from '../../libs/components/common/AgentCard';
+import DealerCard from '../../libs/components/common/DealerCard';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
@@ -16,7 +16,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const AgentList: NextPage = ({ initialInput, ...props }: any) => {
+const DealerList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
@@ -26,7 +26,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const [searchFilter, setSearchFilter] = useState<any>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
-	const [agents, setAgents] = useState<Member[]>([]);
+	const [dealers, setDealers] = useState<Member[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [searchText, setSearchText] = useState<string>('');
@@ -38,7 +38,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			const input_obj = JSON.parse(router?.query?.input as string);
 			setSearchFilter(input_obj);
 		} else
-			router.replace(`/agent?input=${JSON.stringify(searchFilter)}`, `/agent?input=${JSON.stringify(searchFilter)}`);
+			router.replace(`/dealer?input=${JSON.stringify(searchFilter)}`, `/dealer?input=${JSON.stringify(searchFilter)}`);
 
 		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
 	}, [router]);
@@ -79,23 +79,27 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 	const paginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
-		await router.push(`/agent?input=${JSON.stringify(searchFilter)}`, `/agent?input=${JSON.stringify(searchFilter)}`, {
-			scroll: false,
-		});
+		await router.push(
+			`/dealer?input=${JSON.stringify(searchFilter)}`,
+			`/dealer?input=${JSON.stringify(searchFilter)}`,
+			{
+				scroll: false,
+			},
+		);
 		setCurrentPage(value);
 	};
 
 	if (device === 'mobile') {
-		return <h1>AGENTS PAGE MOBILE</h1>;
+		return <h1>DEALERS PAGE MOBILE</h1>;
 	} else {
 		return (
-			<Stack className={'agent-list-page'}>
+			<Stack className={'dealer-list-page'}>
 				<Stack className={'container'}>
 					<Stack className={'filter'}>
 						<Box component={'div'} className={'left'}>
 							<input
 								type="text"
-								placeholder={'Search for an agent'}
+								placeholder={'Search for an dealer'}
 								value={searchText}
 								onChange={(e: any) => setSearchText(e.target.value)}
 								onKeyDown={(event: any) => {
@@ -132,20 +136,20 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						</Box>
 					</Stack>
 					<Stack className={'card-wrap'}>
-						{agents?.length === 0 ? (
+						{dealers?.length === 0 ? (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Agents found!</p>
+								<p>No Dealers found!</p>
 							</div>
 						) : (
-							agents.map((agent: Member) => {
-								return <AgentCard agent={agent} key={agent._id} />;
+							dealers.map((dealer: Member) => {
+								return <DealerCard dealer={dealer} key={dealer._id} />;
 							})
 						)}
 					</Stack>
 					<Stack className={'pagination'}>
 						<Stack className="pagination-box">
-							{agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
+							{dealers.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
 								<Stack className="pagination-box">
 									<Pagination
 										page={currentPage}
@@ -158,9 +162,9 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 							)}
 						</Stack>
 
-						{agents.length !== 0 && (
+						{dealers.length !== 0 && (
 							<span>
-								Total {total} agent{total > 1 ? 's' : ''} available
+								Total {total} dealer{total > 1 ? 's' : ''} available
 							</span>
 						)}
 					</Stack>
@@ -170,7 +174,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	}
 };
 
-AgentList.defaultProps = {
+DealerList.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 10,
@@ -180,4 +184,4 @@ AgentList.defaultProps = {
 	},
 };
 
-export default withLayoutBasic(AgentList);
+export default withLayoutBasic(DealerList);

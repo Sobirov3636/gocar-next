@@ -674,7 +674,7 @@
 		}
 	}
 
-	.top-agents {
+	.top-dealers {
 		position: relative;
 		padding: 20px 10px;
 		width: 100%;
@@ -693,16 +693,16 @@
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				.top-agents-swiper {
+				.top-dealers-swiper {
 					width: 100%;
 					height: 280px;
 					display: flex;
 					flex-direction: row;
-					.top-agents-slide {
+					.top-dealers-slide {
 						width: 98%;
 						height: auto;
 						display: flex;
-						.top-agent-card {
+						.top-dealer-card {
 							width: 100%;
 							height: 280px;
 							display: flex;

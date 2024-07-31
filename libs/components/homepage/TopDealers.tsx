@@ -5,42 +5,58 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import TopAgentCard from './TopAgentCard';
+import TopDealerCard from './TopDealerCard';
 import { Member } from '../../types/member/member';
-import { AgentsInquiry } from '../../types/member/member.input';
+import { DealersInquiry } from '../../types/member/member.input';
+import { T } from '../../types/common';
+import { GET_DEALERS } from '../../../apollo/user/query';
+import { useQuery } from '@apollo/client';
 
-interface TopAgentsProps {
-	initialInput: AgentsInquiry;
+interface TopDealersProps {
+	initialInput: DealersInquiry;
 }
 
-const TopAgents = (props: TopAgentsProps) => {
+const TopDealers = (props: TopDealersProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
-	const [topAgents, setTopAgents] = useState<Member[]>([]);
+	const [topDealers, setTopDealers] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/
+	const {
+		loading: getDealersLoading,
+		data: getDealersData,
+		error: getDealersError,
+		refetch: getDealersRefetch,
+	} = useQuery(GET_DEALERS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: initialInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setTopDealers(data?.getDealers?.list);
+		},
+	});
 	/** HANDLERS **/
 
 	if (device === 'mobile') {
 		return (
-			<Stack className={'top-agents'}>
+			<Stack className={'top-dealers'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Top Agents</span>
+						<span>Top Dealers</span>
 					</Stack>
 					<Stack className={'wrapper'}>
 						<Swiper
-							className={'top-agents-swiper'}
+							className={'top-dealers-swiper'}
 							slidesPerView={'auto'}
 							centeredSlides={true}
 							spaceBetween={29}
 							modules={[Autoplay]}
 						>
-							{topAgents.map((agent: Member) => {
+							{topDealers.map((dealer: Member) => {
 								return (
-									<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-										<TopAgentCard agent={agent} key={agent?.memberNick} />
+									<SwiperSlide className={'top-dealers-slide'} key={dealer?._id}>
+										<TopDealerCard dealer={dealer} key={dealer?.memberNick} />
 									</SwiperSlide>
 								);
 							})}
@@ -51,45 +67,45 @@ const TopAgents = (props: TopAgentsProps) => {
 		);
 	} else {
 		return (
-			<Stack className={'top-agents'}>
+			<Stack className={'top-dealers'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top Agents</span>
-							<p>Our Top Agents always ready to serve you</p>
+							<span>Top Dealers</span>
+							<p>Our Top Dealers always ready to serve you</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
-								<span>See All Agents</span>
+								<span>See All Dealers</span>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
 						</Box>
 					</Stack>
 					<Stack className={'wrapper'}>
-						<Box component={'div'} className={'switch-btn swiper-agents-prev'}>
+						<Box component={'div'} className={'switch-btn swiper-dealers-prev'}>
 							<ArrowBackIosNewIcon />
 						</Box>
 						<Box component={'div'} className={'card-wrapper'}>
 							<Swiper
-								className={'top-agents-swiper'}
+								className={'top-dealers-swiper'}
 								slidesPerView={'auto'}
 								spaceBetween={29}
 								modules={[Autoplay, Navigation, Pagination]}
 								navigation={{
-									nextEl: '.swiper-agents-next',
-									prevEl: '.swiper-agents-prev',
+									nextEl: '.swiper-dealers-next',
+									prevEl: '.swiper-dealers-prev',
 								}}
 							>
-								{topAgents.map((agent: Member) => {
+								{topDealers.map((dealer: Member) => {
 									return (
-										<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-											<TopAgentCard agent={agent} key={agent?.memberNick} />
+										<SwiperSlide className={'top-dealers-slide'} key={dealer?._id}>
+											<TopDealerCard dealer={dealer} key={dealer?.memberNick} />
 										</SwiperSlide>
 									);
 								})}
 							</Swiper>
 						</Box>
-						<Box component={'div'} className={'switch-btn swiper-agents-next'}>
+						<Box component={'div'} className={'switch-btn swiper-dealers-next'}>
 							<ArrowBackIosNewIcon />
 						</Box>
 					</Stack>
@@ -99,7 +115,7 @@ const TopAgents = (props: TopAgentsProps) => {
 	}
 };
 
-TopAgents.defaultProps = {
+TopDealers.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 10,
@@ -109,4 +125,4 @@ TopAgents.defaultProps = {
 	},
 };
 
-export default TopAgents;
+export default TopDealers;

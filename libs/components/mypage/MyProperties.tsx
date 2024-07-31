@@ -5,7 +5,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from './PropertyCard';
 import { useReactiveVar } from '@apollo/client';
 import { Property } from '../../types/property/property';
-import { AgentPropertiesInquiry } from '../../types/property/property.input';
+import { DealerPropertiesInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
 import { PropertyStatus } from '../../enums/property.enum';
 import { userVar } from '../../../apollo/store';
@@ -13,8 +13,8 @@ import { useRouter } from 'next/router';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
-	const [searchFilter, setSearchFilter] = useState<AgentPropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [searchFilter, setSearchFilter] = useState<DealerPropertiesInquiry>(initialInput);
+	const [dealerProperties, setDealerProperties] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
@@ -34,7 +34,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 
 	const updatePropertyHandler = async (status: string, id: string) => {};
 
-	if (user?.memberType !== 'AGENT') {
+	if (user?.memberType !== 'DEALER') {
 		router.back();
 	}
 
@@ -73,13 +73,13 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Action</Typography>
 						</Stack>
 
-						{agentProperties?.length === 0 ? (
+						{dealerProperties?.length === 0 ? (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
 								<p>No Property found!</p>
 							</div>
 						) : (
-							agentProperties.map((property: Property) => {
+							dealerProperties.map((property: Property) => {
 								return (
 									<PropertyCard
 										property={property}
@@ -90,7 +90,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							})
 						)}
 
-						{agentProperties.length !== 0 && (
+						{dealerProperties.length !== 0 && (
 							<Stack className="pagination-config">
 								<Stack className="pagination-box">
 									<Pagination

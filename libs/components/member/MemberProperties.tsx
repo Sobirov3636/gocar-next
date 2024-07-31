@@ -13,7 +13,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const router = useRouter();
 	const { memberId } = router.query;
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>({ ...initialInput });
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [dealerProperties, setDealerProperties] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
 
 	/** APOLLO REQUESTS **/
@@ -43,7 +43,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 				</Stack>
 				<Stack className="properties-list-box">
 					<Stack className="list-box">
-						{agentProperties?.length > 0 && (
+						{dealerProperties?.length > 0 && (
 							<Stack className="listing-title-box">
 								<Typography className="title-text">Listing title</Typography>
 								<Typography className="title-text">Date Published</Typography>
@@ -51,17 +51,17 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 								<Typography className="title-text">View</Typography>
 							</Stack>
 						)}
-						{agentProperties?.length === 0 && (
+						{dealerProperties?.length === 0 && (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
 								<p>No Property found!</p>
 							</div>
 						)}
-						{agentProperties?.map((property: Property) => {
+						{dealerProperties?.map((property: Property) => {
 							return <PropertyCard property={property} memberPage={true} key={property?._id} />;
 						})}
 
-						{agentProperties.length !== 0 && (
+						{dealerProperties.length !== 0 && (
 							<Stack className="pagination-config">
 								<Stack className="pagination-box">
 									<Pagination

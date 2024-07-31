@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
-import ReviewCard from '../../libs/components/agent/ReviewCard';
+import ReviewCard from '../../libs/components/dealer/ReviewCard';
 import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useReactiveVar } from '@apollo/client';
@@ -25,17 +25,17 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) => {
+const DealerDetail: NextPage = ({ initialInput, initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [mbId, setMbId] = useState<string | null>(null);
-	const [agent, setAgent] = useState<Member | null>(null);
+	const [dealer, setDealer] = useState<Member | null>(null);
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [dealerProperties, setDealerProperties] = useState<Property[]>([]);
 	const [propertyTotal, setPropertyTotal] = useState<number>(0);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
-	const [agentComments, setAgentComments] = useState<Comment[]>([]);
+	const [dealerComments, setDealerComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.MEMBER,
@@ -46,7 +46,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	/** APOLLO REQUESTS **/
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (router.query.agentId) setMbId(router.query.agentId as string);
+		if (router.query.dealerId) setMbId(router.query.dealerId as string);
 	}, [router]);
 
 	useEffect(() => {}, [searchFilter]);
@@ -80,27 +80,31 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	};
 
 	if (device === 'mobile') {
-		return <div>AGENT DETAIL PAGE MOBILE</div>;
+		return <div>DEALER DETAIL PAGE MOBILE</div>;
 	} else {
 		return (
-			<Stack className={'agent-detail-page'}>
+			<Stack className={'dealer-detail-page'}>
 				<Stack className={'container'}>
-					<Stack className={'agent-info'}>
+					<Stack className={'dealer-info'}>
 						<img
-							src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
+							src={dealer?.memberImage ? `${REACT_APP_API_URL}/${dealer?.memberImage}` : '/img/profile/defaultUser.svg'}
 							alt=""
 						/>
-						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+						<Box
+							component={'div'}
+							className={'info'}
+							onClick={() => redirectToMemberPageHandler(dealer?._id as string)}
+						>
+							<strong>{dealer?.memberFullName ?? dealer?.memberNick}</strong>
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
-								<span>{agent?.memberPhone}</span>
+								<span>{dealer?.memberPhone}</span>
 							</div>
 						</Box>
 					</Stack>
-					<Stack className={'agent-home-list'}>
+					<Stack className={'dealer-home-list'}>
 						<Stack className={'card-wrap'}>
-							{agentProperties.map((property: Property) => {
+							{dealerProperties.map((property: Property) => {
 								return (
 									<div className={'wrap-main'} key={property?._id}>
 										<PropertyBigCard property={property} key={property?._id} />
@@ -145,7 +149,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 										{commentTotal} review{commentTotal > 1 ? 's' : ''}
 									</span>
 								</Box>
-								{agentComments?.map((comment: Comment) => {
+								{dealerComments?.map((comment: Comment) => {
 									return <ReviewCard comment={comment} key={comment?._id} />;
 								})}
 								<Box component={'div'} className={'pagination-box'}>
@@ -199,7 +203,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	}
 };
 
-AgentDetail.defaultProps = {
+DealerDetail.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 9,
@@ -218,4 +222,4 @@ AgentDetail.defaultProps = {
 	},
 };
 
-export default withLayoutBasic(AgentDetail);
+export default withLayoutBasic(DealerDetail);

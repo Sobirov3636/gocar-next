@@ -759,14 +759,14 @@
 				}
 			}
 		}
-		.top-agents {
+		.top-dealers {
 			position: relative;
 			padding: 153px 0px 135px;
 			width: 100%;
 			height: 722px;
 			display: flex;
 			flex-direction: row;
-			background: #f6f6f6;
+			background: rgba(222, 56, 216, 0.0784313725);
 			.container {
 				position: relative;
 				flex-direction: column;
@@ -792,40 +792,45 @@
 							width: 14px;
 							height: 14px;
 						}
-						&.swiper-agents-next {
+						&.swiper-dealers-next {
 							transform: rotate(180deg);
 						}
 					}
 					.card-wrapper {
 						width: 1174px;
-						height: 280px;
+						height: 300px;
 						display: flex;
 						flex-direction: row;
-						.top-agents-swiper {
+						.top-dealers-swiper {
 							width: 99.7%;
-							height: 280px;
+							height: 300px;
 							display: flex;
 							flex-direction: row;
-							.top-agents-slide {
+							.top-dealers-slide {
 								width: auto;
 								height: auto;
 								display: flex;
 							}
 						}
-						.top-agent-card {
-							width: 205px;
+						.top-dealer-card {
+							width: 255px;
 							height: 280px;
+							margin-right: 10px;
 							display: flex;
 							flex-direction: column;
+							border-radius: 10px;
+							background-color: #f6f6f6;
+							box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 							img {
-								width: 209px;
-								height: 209px;
-								border-radius: 50%;
+								width: 200px;
+								height: 200px;
+								margin: 15px auto;
+								border-radius: 10px;
 								cursor: pointer;
 								object-fit: cover;
 							}
 							strong {
-								margin-top: 20px;
+								// margin-top: 20px;
 								color: #181a20;
 								text-align: center;
 								font-family: $font;

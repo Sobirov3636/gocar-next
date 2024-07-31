@@ -3,7 +3,7 @@ import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import PopularProperties from '../libs/components/homepage/PopularProperties';
-import TopAgents from '../libs/components/homepage/TopAgents';
+import TopDealers from '../libs/components/homepage/TopDealers';
 import Events from '../libs/components/homepage/Events';
 import TrendProperties from '../libs/components/homepage/TrendProperties';
 import TopProperties from '../libs/components/homepage/TopProperties';
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
 				<PopularProperties />
 				<Advertisement />
 				<TopProperties />
-				<TopAgents />
+				<TopDealers />
 			</Stack>
 		);
 	} else {
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
 				<PopularProperties />
 				<Advertisement />
 				<TopProperties />
-				<TopAgents />
+				<TopDealers />
 				<Events />
 				<CommunityBoards />
 			</Stack>
