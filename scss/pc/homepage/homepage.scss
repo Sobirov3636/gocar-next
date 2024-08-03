@@ -998,9 +998,12 @@
 							.vertical-card {
 								margin-right: 12px;
 								margin-bottom: 18px;
-								width: 202px;
+								width: 305px;
 								display: flex;
 								flex-direction: column;
+								background: #e521e929;
+								border-radius: 10px;
+								padding-bottom: 10px;
 								cursor: pointer;
 								.community-img {
 									width: 100%;
@@ -1027,6 +1030,7 @@
 								}
 								strong {
 									margin-top: 10px;
+									margin-left: 10px;
 									font-family: $font;
 									font-style: normal;
 									font-weight: 700;
@@ -1036,13 +1040,14 @@
 									color: #000000;
 								}
 								span {
+									margin-left: 10px;
 									font-family: $font;
 									font-style: normal;
 									font-weight: 400;
 									font-size: 16px;
 									line-height: 19px;
 									letter-spacing: -0.015em;
-									color: #d3d3d3;
+									color: #484545;
 								}
 							}
 						}
@@ -1057,10 +1062,13 @@
 							flex-direction: row;
 							cursor: pointer;
 							margin-bottom: 34px;
+							border-radius: 10px;
+							background: #e521e929;
+							padding: 24px;
 							img {
 								width: 180px;
-								height: 111px;
-								border-radius: 7px;
+								height: 160px;
+								border-radius: 10px;
 							}
 							div {
 								margin-left: 25px;
