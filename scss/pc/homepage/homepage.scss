@@ -855,94 +855,77 @@
 				}
 			}
 		}
-		.events {
-			position: relative;
-			padding: 100px 0px 92px;
+		.statistic-container {
+			height: 500px;
 			width: 100%;
-			height: 810px;
-			display: flex;
-			flex-direction: row;
-			background: #181a20;
-			.container {
-				flex-direction: column;
-				align-items: center;
-				.card-wrapper {
-					position: relative;
-					margin-top: 48px;
-					width: 100%;
-					height: auto;
+			background-image: url('/img/statistic-bg.jpg');
+			background-position: center center;
+			background-size: cover;
+
+			.about-us {
+				height: 300px;
+				width: 1300px;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				margin: 30px auto;
+				border-radius: 10px;
+
+				.about-us-detail {
+					width: 350px;
+					height: 180px;
+					padding: 30px 15px 5px 20px;
+					border: 1px solid gray;
+					border-radius: 10px;
 					display: flex;
 					flex-direction: row;
-					justify-content: space-between;
-					.event-card {
-						position: relative;
-						width: 300px;
-						height: 420px;
-						border-radius: 12px;
-						opacity: 0.9;
-						cursor: pointer;
-						transition: opacity 0.4s;
-						&:hover {
-							opacity: 1;
-							scale: 1.05;
-							transition: 0.3s;
-							.more {
-								opacity: 1;
-							}
+					gap: 20px;
+					background-color: #fff;
+
+					.detail {
+						h3 {
+							text-transform: uppercase;
+							margin-bottom: 10px;
 						}
-						.info {
-							position: absolute;
-							display: flex;
-							flex-direction: column;
-							top: 35px;
-							left: 10px;
-							right: 10px;
-							strong {
-								color: #f64747;
-								font-family: $font;
-								font-size: 25px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-							}
-							span {
-								color: #f66767;
-								font-family: $font;
-								font-size: 20px;
-								font-style: normal;
-								font-weight: 500;
-								line-height: 28px;
-								text-transform: capitalize;
-							}
+						p {
+							font-size: 15px;
+							color: #888888;
 						}
-						.more {
-							position: absolute;
-							left: 10px;
-							right: 10px;
-							bottom: 41px;
-							display: flex;
-							flex-direction: row;
-							align-items: center;
-							opacity: 0;
-							span {
-								padding: 0px 5px;
-								border-radius: 5px;
-								background: #fffdfdc4;
-								color: #9c67f6;
-								font-family: $font;
-								font-size: 16px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-								text-align: justify;
-								cursor: pointer;
-							}
+					}
+				}
+			}
+
+			.statistic-box {
+				width: 1300px;
+				background-color: rgb(255, 255, 255);
+				margin: 30px auto;
+				padding: 10px;
+				border-radius: 5px;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+
+				.statistic-detail {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					gap: 10px;
+
+					.detail-info {
+						p {
+							font-size: 45px;
+							font-weight: 700;
+							color: #676767;
+						}
+						h3 {
+							text-transform: uppercase;
+							color: #676767;
 						}
 					}
 				}
 			}
 		}
+
 		.community-board {
 			position: relative;
 			padding: 124px 0px 61px;
