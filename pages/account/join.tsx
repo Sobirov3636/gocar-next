@@ -73,8 +73,8 @@ const Join: NextPage = () => {
 						<Stack className={'left'}>
 							{/* @ts-ignore */}
 							<Box className={'logo'}>
-								<img src="/img/logo/logoText.svg" alt="" />
-								<span>Nestar</span>
+								<img src="/img/logo/logo.png" alt="" />
+								<span>GoCar</span>
 							</Box>
 							<Box className={'info'}>
 								<span>{loginView ? 'login' : 'signup'}</span>
@@ -206,7 +206,7 @@ const Join: NextPage = () => {
 								)}
 							</Box>
 						</Stack>
-						<Stack className={'right'}></Stack>
+						{/* <Stack className={'right'}></Stack> */}
 					</Stack>
 				</Stack>
 			</Stack>
