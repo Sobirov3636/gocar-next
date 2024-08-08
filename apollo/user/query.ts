@@ -184,6 +184,11 @@ export const GET_PROPERTIES = gql`
 				deletedAt
 				createdAt
 				updatedAt
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
 				memberData {
 					_id
 					memberType
