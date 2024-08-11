@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Typography, Box } from '@mui/material';
+import { Stack, Typography, Box, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -65,21 +65,58 @@ const PropertyCard = (props: PropertyCardType) => {
 						</Stack>
 						<Stack className="address">
 							<Typography>
+								<img
+									className="location-img"
+									style={{ width: '20px', height: '20px' }}
+									src="/img/icons/location.webp"
+									alt=""
+								/>
 								{property.propertyAddress}, {property.propertyLocation}
 							</Typography>
 						</Stack>
 					</Stack>
 					<Stack className="options">
 						<Stack className="option">
-							<img src="/img/icons/bed.svg" alt="" /> <Typography>{property.propertyBeds} bed</Typography>
-						</Stack>
-						<Stack className="option">
-							<img src="/img/icons/room.svg" alt="" /> <Typography>{property.propertyRooms} room</Typography>
-						</Stack>
-						<Stack className="option">
-							<img src="/img/icons/expand.svg" alt="" /> <Typography>{property.propertySquare} m2</Typography>
+							<div
+								style={{
+									marginTop: '65px',
+									marginRight: '80px',
+									display: 'flex',
+									gap: '20px',
+									flexDirection: 'column',
+								}}
+							>
+								<div>
+									<img src="/img/icons/diriven.png" alt="" />
+									<span>{property.propertyDrivenDistance} km</span>
+								</div>
+								<div>
+									<img src="/img/icons/transmission.png" alt="" />
+									<span>{property.propertyTransmission} </span>
+								</div>
+							</div>
+							<div
+								style={{
+									marginTop: '65px',
+									marginRight: '50px',
+									display: 'flex',
+									gap: '20px',
+									flexDirection: 'column',
+								}}
+							>
+								<div>
+									<img src="/img/icons/fuel.png" alt="" />
+									<span>{property.propertyFuel} </span>
+								</div>
+
+								<div>
+									<img src="/img/icons/year.png" alt="" />
+									<span>{property.propertyManufacturedYear} </span>
+								</div>
+							</div>
 						</Stack>
 					</Stack>
+
 					<Stack className="divider"></Stack>
 					<Stack className="type-buttons">
 						<Stack className="type">
@@ -89,33 +126,43 @@ const PropertyCard = (props: PropertyCardType) => {
 							>
 								Rent
 							</Typography>
-							<Typography
-								sx={{ fontWeight: 500, fontSize: '13px' }}
-								className={property.propertyBarter ? '' : 'disabled-type'}
-							>
-								Barter
-							</Typography>
 						</Stack>
-						{!recentlyVisited && (
-							<Stack className="buttons">
-								<IconButton color={'default'}>
-									<RemoveRedEyeIcon />
-								</IconButton>
-								<Typography className="view-cnt">{property?.propertyViews}</Typography>
-								<IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
-									{myFavorites ? (
-										<FavoriteIcon color="primary" />
-									) : property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-										<FavoriteIcon color="primary" />
-									) : (
-										<FavoriteBorderIcon />
-									)}
-								</IconButton>
-								<Typography className="view-cnt">{property?.propertyLikes}</Typography>
-							</Stack>
-						)}
+						<Link
+							style={{
+								padding: '8px 30px',
+
+								borderRadius: '10px',
+								background: '#c429ad',
+								color: '#fff',
+							}}
+							href={{
+								pathname: '/property/detail',
+								query: { id: property?._id },
+							}}
+						>
+							Check detail
+						</Link>
 					</Stack>
 				</Stack>
+
+				{!recentlyVisited && (
+					<Stack className="buttons">
+						<IconButton color={'default'}>
+							<RemoveRedEyeIcon />
+						</IconButton>
+						<Typography className="view-cnt">{property?.propertyViews}</Typography>
+						<IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
+							{myFavorites ? (
+								<FavoriteIcon color="primary" />
+							) : property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+								<FavoriteIcon color="primary" />
+							) : (
+								<FavoriteBorderIcon />
+							)}
+						</IconButton>
+						<Typography className="view-cnt">{property?.propertyLikes}</Typography>
+					</Stack>
+				)}
 			</Stack>
 		);
 	}

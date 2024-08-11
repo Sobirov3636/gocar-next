@@ -13,11 +13,17 @@ import {
 	IconButton,
 } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyLocation, PropertyType } from '../../enums/property.enum';
+import {
+	PropertyFuel,
+	PropertyLocation,
+	PropertyManufacture,
+	PropertyTransmission,
+	PropertyType,
+} from '../../enums/property.enum';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import { propertySquare } from '../../config';
+import { propertyMileage, propertyYears } from '../../config';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 const MenuProps = {
@@ -27,6 +33,8 @@ const MenuProps = {
 		},
 	},
 };
+
+const thisYear = new Date().getFullYear();
 
 interface FilterType {
 	searchFilter: PropertiesInquiry;
@@ -40,48 +48,185 @@ const Filter = (props: FilterType) => {
 	const router = useRouter();
 	const [propertyLocation, setPropertyLocation] = useState<PropertyLocation[]>(Object.values(PropertyLocation));
 	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
+	const [yearCheck, setYearCheck] = useState({ start: 2000, end: thisYear });
 	const [searchText, setSearchText] = useState<string>('');
 	const [showMore, setShowMore] = useState<boolean>(false);
-
 	/** LIFECYCLES **/
 	useEffect(() => {
-		const queryParams = JSON.stringify({
-			...searchFilter,
-			search: {
-				...searchFilter.search,
-			},
-		});
-
 		if (searchFilter?.search?.locationList?.length == 0) {
 			delete searchFilter.search.locationList;
 			setShowMore(false);
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router
+				.push(
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					{ scroll: false },
+				)
+				.then();
 		}
 
 		if (searchFilter?.search?.typeList?.length == 0) {
 			delete searchFilter.search.typeList;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router
+				.push(
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					{ scroll: false },
+				)
+				.then();
 		}
 
-		if (searchFilter?.search?.roomsList?.length == 0) {
-			delete searchFilter.search.roomsList;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+		if (searchFilter?.search?.fuelList?.length == 0) {
+			delete searchFilter.search.fuelList;
+			router
+				.push(
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					{ scroll: false },
+				)
+				.then();
 		}
 
-		if (searchFilter?.search?.options?.length == 0) {
-			delete searchFilter.search.options;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+		if (searchFilter?.search?.transmissionList?.length == 0) {
+			delete searchFilter.search.transmissionList;
+			router
+				.push(
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					{ scroll: false },
+				)
+				.then();
 		}
 
-		if (searchFilter?.search?.bedsList?.length == 0) {
-			delete searchFilter.search.bedsList;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+		if (searchFilter?.search?.manufactureList?.length == 0) {
+			delete searchFilter.search.manufactureList;
+			router
+				.push(
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+						},
+					})}`,
+					{ scroll: false },
+				)
+				.then();
 		}
 
 		if (searchFilter?.search?.locationList) setShowMore(true);
 	}, [searchFilter]);
 
 	/** HANDLERS **/
+
+	const yearStartChangeHandler = async (event: any) => {
+		const value = event.target.value;
+
+		setYearCheck({ ...yearCheck, start: Number(value) });
+		await router.push(
+			`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+					manufacturedYearRange: { ...searchFilter.search.manufacturedYearRange, start: value },
+				},
+			})}`,
+			`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+					manufacturedYearRange: { ...searchFilter.search.manufacturedYearRange, start: value },
+				},
+			})}`,
+			{ scroll: false },
+		);
+
+		setSearchFilter({
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+				manufacturedYearRange: { start: Number(event.target.value), end: yearCheck.end },
+			},
+		});
+	};
+
+	const yearEndChangeHandler = async (event: any) => {
+		const value = event.target.value;
+
+		setYearCheck({ ...yearCheck, end: Number(value) });
+
+		await router.push(
+			`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+					manufacturedYearRange: { ...searchFilter.search.manufacturedYearRange, end: value },
+				},
+			})}`,
+			`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+					manufacturedYearRange: { ...searchFilter.search.manufacturedYearRange, end: value },
+				},
+			})}`,
+			{ scroll: false },
+		);
+
+		setSearchFilter({
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+				manufacturedYearRange: { start: yearCheck.start, end: Number(event.target.value) },
+			},
+		});
+	};
+
 	const propertyLocationSelectHandler = useCallback(
 		async (e: any) => {
 			try {
@@ -180,24 +325,127 @@ const Filter = (props: FilterType) => {
 		[searchFilter],
 	);
 
-	const propertyRoomSelectHandler = useCallback(
-		async (number: Number) => {
+	// 	async (e: any) => {
+	// 		try {
+	// 			const isChecked = e.target.checked;
+	// 			const value = e.target.value;
+	// 			if (isChecked) {
+	// 				await router.push(
+	// 					`/property?input=${JSON.stringify({
+	// 						...searchFilter,
+	// 						search: {
+	// 							...searchFilter.search,
+	// 							transmissionList: [...(searchFilter?.search?.transmissionList || []), value],
+	// 						},
+	// 					})}`,
+	// 					`/property?input=${JSON.stringify({
+	// 						...searchFilter,
+	// 						search: {
+	// 							...searchFilter.search,
+	// 							transmissionList: [...(searchFilter?.search?.transmissionList || []), value],
+	// 						},
+	// 					})}`,
+	// 					{ scroll: false },
+	// 				);
+	// 			} else if (searchFilter?.search?.transmissionList?.includes(value)) {
+	// 				await router.push(
+	// 					`/property?input=${JSON.stringify({
+	// 						...searchFilter,
+	// 						search: {
+	// 							...searchFilter.search,
+	// 							transmissionList: searchFilter?.search?.transmissionList?.filter((item: string) => item !== value),
+	// 						},
+	// 					})}`,
+	// 					`/property?input=${JSON.stringify({
+	// 						...searchFilter,
+	// 						search: {
+	// 							...searchFilter.search,
+	// 							transmissionList: searchFilter?.search?.transmissionList?.filter((item: string) => item !== value),
+	// 						},
+	// 					})}`,
+	// 					{ scroll: false },
+	// 				);
+	// 			}
+
+	// 			if (searchFilter?.search?.transmissionList?.length == 0) {
+	// 				alert('error');
+	// 			}
+
+	// 			console.log('propertyTransmissionSelectHandler:', e.target.value);
+	// 		} catch (err: any) {
+	// 			console.log('ERROR, propertyTransmissionSelectHandler:', err);
+	// 		}
+	// 	},
+	// 	[searchFilter],
+	// );
+
+	// const propertyFuelSelectHandler = useCallback(
+	// 	async (e: any) => {
+	// 		try {
+	// 			const isChecked = e.target.checked;
+	// 			const value = e.target.value;
+	// 			if (isChecked) {
+	// 				await router.push(
+	// 					`/property?input=${JSON.stringify({
+	// 						...searchFilter,
+	// 						search: { ...searchFilter.search, fuelList: [...(searchFilter?.search?.fuelList || []), value] },
+	// 					})}`,
+	// 					`/property?input=${JSON.stringify({
+	// 						...searchFilter,
+	// 						search: { ...searchFilter.search, fuelList: [...(searchFilter?.search?.fuelList || []), value] },
+	// 					})}`,
+	// 					{ scroll: false },
+	// 				);
+	// 			} else if (searchFilter?.search?.fuelList?.includes(value)) {
+	// 				await router.push(
+	// 					`/property?input=${JSON.stringify({
+	// 						...searchFilter,
+	// 						search: {
+	// 							...searchFilter.search,
+	// 							fuelList: searchFilter?.search?.fuelList?.filter((item: string) => item !== value),
+	// 						},
+	// 					})}`,
+	// 					`/property?input=${JSON.stringify({
+	// 						...searchFilter,
+	// 						search: {
+	// 							...searchFilter.search,
+	// 							fuelList: searchFilter?.search?.fuelList?.filter((item: string) => item !== value),
+	// 						},
+	// 					})}`,
+	// 					{ scroll: false },
+	// 				);
+	// 			}
+
+	// 			if (searchFilter?.search?.fuelList?.length == 0) {
+	// 				alert('error');
+	// 			}
+
+	// 			console.log('propertyFuelSelectHandler:', e.target.value);
+	// 		} catch (err: any) {
+	// 			console.log('ERROR, propertyFuelSelectHandler:', err);
+	// 		}
+	// 	},
+	// 	[searchFilter],
+	// );
+
+	const propertyFuelSelectHandler = useCallback(
+		async (string: String) => {
 			try {
-				if (number != 0) {
-					if (searchFilter?.search?.roomsList?.includes(number)) {
+				if (string != '') {
+					if (searchFilter?.search?.fuelList?.includes(string as PropertyFuel)) {
 						await router.push(
 							`/property?input=${JSON.stringify({
 								...searchFilter,
 								search: {
 									...searchFilter.search,
-									roomsList: searchFilter?.search?.roomsList?.filter((item: Number) => item !== number),
+									fuelList: searchFilter?.search?.fuelList?.filter((item: String) => item !== string),
 								},
 							})}`,
 							`/property?input=${JSON.stringify({
 								...searchFilter,
 								search: {
 									...searchFilter.search,
-									roomsList: searchFilter?.search?.roomsList?.filter((item: Number) => item !== number),
+									fuelList: searchFilter?.search?.fuelList?.filter((item: String) => item !== string),
 								},
 							})}`,
 							{ scroll: false },
@@ -206,17 +454,17 @@ const Filter = (props: FilterType) => {
 						await router.push(
 							`/property?input=${JSON.stringify({
 								...searchFilter,
-								search: { ...searchFilter.search, roomsList: [...(searchFilter?.search?.roomsList || []), number] },
+								search: { ...searchFilter.search, fuelList: [...(searchFilter?.search?.fuelList || []), string] },
 							})}`,
 							`/property?input=${JSON.stringify({
 								...searchFilter,
-								search: { ...searchFilter.search, roomsList: [...(searchFilter?.search?.roomsList || []), number] },
+								search: { ...searchFilter.search, fuelList: [...(searchFilter?.search?.fuelList || []), string] },
 							})}`,
 							{ scroll: false },
 						);
 					}
 				} else {
-					delete searchFilter?.search.roomsList;
+					delete searchFilter?.search.fuelList;
 					setSearchFilter({ ...searchFilter });
 					await router.push(
 						`/property?input=${JSON.stringify({
@@ -235,77 +483,31 @@ const Filter = (props: FilterType) => {
 					);
 				}
 
-				console.log('propertyRoomSelectHandler:', number);
+				console.log('propertyRoomSelectHandler:', string);
 			} catch (err: any) {
 				console.log('ERROR, propertyRoomSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
-
-	const propertyOptionSelectHandler = useCallback(
-		async (e: any) => {
+	const propertyTransmissionSelectHandler = useCallback(
+		async (string: String) => {
 			try {
-				const isChecked = e.target.checked;
-				const value = e.target.value;
-				if (isChecked) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, options: [...(searchFilter?.search?.options || []), value] },
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, options: [...(searchFilter?.search?.options || []), value] },
-						})}`,
-						{ scroll: false },
-					);
-				} else if (searchFilter?.search?.options?.includes(value)) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								options: searchFilter?.search?.options?.filter((item: string) => item !== value),
-							},
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								options: searchFilter?.search?.options?.filter((item: string) => item !== value),
-							},
-						})}`,
-						{ scroll: false },
-					);
-				}
-
-				console.log('propertyOptionSelectHandler:', e.target.value);
-			} catch (err: any) {
-				console.log('ERROR, propertyOptionSelectHandler:', err);
-			}
-		},
-		[searchFilter],
-	);
-
-	const propertyBedSelectHandler = useCallback(
-		async (number: Number) => {
-			try {
-				if (number != 0) {
-					if (searchFilter?.search?.bedsList?.includes(number)) {
+				if (string != '') {
+					if (searchFilter?.search?.transmissionList?.includes(string as PropertyTransmission)) {
 						await router.push(
 							`/property?input=${JSON.stringify({
 								...searchFilter,
 								search: {
 									...searchFilter.search,
-									bedsList: searchFilter?.search?.bedsList?.filter((item: Number) => item !== number),
+									transmissionList: searchFilter?.search?.transmissionList?.filter((item: String) => item !== string),
 								},
 							})}`,
 							`/property?input=${JSON.stringify({
 								...searchFilter,
 								search: {
 									...searchFilter.search,
-									bedsList: searchFilter?.search?.bedsList?.filter((item: Number) => item !== number),
+									transmissionList: searchFilter?.search?.transmissionList?.filter((item: String) => item !== string),
 								},
 							})}`,
 							{ scroll: false },
@@ -314,17 +516,23 @@ const Filter = (props: FilterType) => {
 						await router.push(
 							`/property?input=${JSON.stringify({
 								...searchFilter,
-								search: { ...searchFilter.search, bedsList: [...(searchFilter?.search?.bedsList || []), number] },
+								search: {
+									...searchFilter.search,
+									transmissionList: [...(searchFilter?.search?.transmissionList || []), string],
+								},
 							})}`,
 							`/property?input=${JSON.stringify({
 								...searchFilter,
-								search: { ...searchFilter.search, bedsList: [...(searchFilter?.search?.bedsList || []), number] },
+								search: {
+									...searchFilter.search,
+									transmissionList: [...(searchFilter?.search?.transmissionList || []), string],
+								},
 							})}`,
 							{ scroll: false },
 						);
 					}
 				} else {
-					delete searchFilter?.search.bedsList;
+					delete searchFilter?.search.transmissionList;
 					setSearchFilter({ ...searchFilter });
 					await router.push(
 						`/property?input=${JSON.stringify({
@@ -343,15 +551,83 @@ const Filter = (props: FilterType) => {
 					);
 				}
 
-				console.log('propertyBedSelectHandler:', number);
+				console.log('propertyTransmissionSelectHandler:', string);
 			} catch (err: any) {
-				console.log('ERROR, propertyBedSelectHandler:', err);
+				console.log('ERROR, propertyTransmissionSelectHandler:', err);
+			}
+		},
+		[searchFilter],
+	);
+	const propertyManufactureSelectHandler = useCallback(
+		async (string: String) => {
+			try {
+				if (string != '') {
+					if (searchFilter?.search?.manufactureList?.includes(string as PropertyManufacture)) {
+						await router.push(
+							`/property?input=${JSON.stringify({
+								...searchFilter,
+								search: {
+									...searchFilter.search,
+									manufactureList: searchFilter?.search?.manufactureList?.filter((item: String) => item !== string),
+								},
+							})}`,
+							`/property?input=${JSON.stringify({
+								...searchFilter,
+								search: {
+									...searchFilter.search,
+									manufactureList: searchFilter?.search?.manufactureList?.filter((item: String) => item !== string),
+								},
+							})}`,
+							{ scroll: false },
+						);
+					} else {
+						await router.push(
+							`/property?input=${JSON.stringify({
+								...searchFilter,
+								search: {
+									...searchFilter.search,
+									manufactureList: [...(searchFilter?.search?.manufactureList || []), string],
+								},
+							})}`,
+							`/property?input=${JSON.stringify({
+								...searchFilter,
+								search: {
+									...searchFilter.search,
+									manufactureList: [...(searchFilter?.search?.manufactureList || []), string],
+								},
+							})}`,
+							{ scroll: false },
+						);
+					}
+				} else {
+					delete searchFilter?.search.manufactureList;
+					setSearchFilter({ ...searchFilter });
+					await router.push(
+						`/property?input=${JSON.stringify({
+							...searchFilter,
+							search: {
+								...searchFilter.search,
+							},
+						})}`,
+						`/property?input=${JSON.stringify({
+							...searchFilter,
+							search: {
+								...searchFilter.search,
+							},
+						})}`,
+						{ scroll: false },
+					);
+				}
+
+				console.log('propertyManufactureSelectHandler:', string);
+			} catch (err: any) {
+				console.log('ERROR, propertyManufactureSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertySquareHandler = useCallback(
+	const propertyMileageHandler = useCallback(
 		async (e: any, type: string) => {
 			const value = e.target.value;
 
@@ -361,14 +637,14 @@ const Filter = (props: FilterType) => {
 						...searchFilter,
 						search: {
 							...searchFilter.search,
-							squaresRange: { ...searchFilter.search.squaresRange, start: value },
+							drivenDistanceRange: { ...searchFilter.search.drivenDistanceRange, start: value },
 						},
 					})}`,
 					`/property?input=${JSON.stringify({
 						...searchFilter,
 						search: {
 							...searchFilter.search,
-							squaresRange: { ...searchFilter.search.squaresRange, start: value },
+							drivenDistanceRange: { ...searchFilter.search.drivenDistanceRange, start: value },
 						},
 					})}`,
 					{ scroll: false },
@@ -379,14 +655,14 @@ const Filter = (props: FilterType) => {
 						...searchFilter,
 						search: {
 							...searchFilter.search,
-							squaresRange: { ...searchFilter.search.squaresRange, end: value },
+							drivenDistanceRange: { ...searchFilter.search.drivenDistanceRange, end: value },
 						},
 					})}`,
 					`/property?input=${JSON.stringify({
 						...searchFilter,
 						search: {
 							...searchFilter.search,
-							squaresRange: { ...searchFilter.search.squaresRange, end: value },
+							drivenDistanceRange: { ...searchFilter.search.drivenDistanceRange, end: value },
 						},
 					})}`,
 					{ scroll: false },
@@ -458,7 +734,7 @@ const Filter = (props: FilterType) => {
 		return (
 			<Stack className={'filter-main'}>
 				<Stack className={'find-your-home'} mb={'40px'}>
-					<Typography className={'title-main'}>Find Your Home</Typography>
+					<Typography className={'title-main'}>Find Your Car</Typography>
 					<Stack className={'input-box'}>
 						<OutlinedInput
 							value={searchText}
@@ -514,9 +790,10 @@ const Filter = (props: FilterType) => {
 							return (
 								<Stack className={'input-box'} key={location}>
 									<Checkbox
+										sx={{ color: 'red' }}
 										id={location}
 										className="property-checkbox"
-										color="default"
+										color="info"
 										size="small"
 										value={location}
 										checked={(searchFilter?.search?.locationList || []).includes(location as PropertyLocation)}
@@ -532,12 +809,14 @@ const Filter = (props: FilterType) => {
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<Typography className={'title'}>Property Type</Typography>
+
 					{propertyType.map((type: string) => (
 						<Stack className={'input-box'} key={type}>
 							<Checkbox
+								sx={{ color: 'red' }}
 								id={type}
 								className="property-checkbox"
-								color="default"
+								color="success"
 								size="small"
 								value={type}
 								onChange={propertyTypeSelectHandler}
@@ -549,186 +828,224 @@ const Filter = (props: FilterType) => {
 						</Stack>
 					))}
 				</Stack>
+
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Rooms</Typography>
+					<Typography className={'title'}>Property Manufacture</Typography>
 					<Stack className="button-group">
 						<Button
 							sx={{
 								borderRadius: '12px 0 0 12px',
-								border: !searchFilter?.search?.roomsList ? '2px solid #181A20' : '1px solid #b9b9b9',
+								border: !searchFilter?.search?.manufactureList ? '2px solid #f59fe8' : '1px solid #b9b9b9',
+								background: !searchFilter?.search?.manufactureList ? '#f8b1ed ' : '',
+								color: !searchFilter?.search?.manufactureList ? '#fff ' : '#181a20;',
 							}}
-							onClick={() => propertyRoomSelectHandler(0)}
+							onClick={() => propertyManufactureSelectHandler('')}
 						>
 							Any
 						</Button>
 						<Button
 							sx={{
 								borderRadius: 0,
-								border: searchFilter?.search?.roomsList?.includes(1) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.roomsList?.includes(1) ? undefined : 'none',
+								border: searchFilter?.search?.manufactureList?.includes(PropertyManufacture.IMPORT)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.manufactureList?.includes(PropertyManufacture.IMPORT)
+									? undefined
+									: 'none',
+								background: searchFilter?.search?.manufactureList?.includes(PropertyManufacture.IMPORT)
+									? '#f8b1ed'
+									: '',
+								color: searchFilter?.search?.manufactureList?.includes(PropertyManufacture.IMPORT)
+									? '#fff '
+									: '#181a20;',
 							}}
-							onClick={() => propertyRoomSelectHandler(1)}
+							onClick={() => propertyManufactureSelectHandler(PropertyManufacture.IMPORT)}
 						>
-							1
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.roomsList?.includes(2) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.roomsList?.includes(2) ? undefined : 'none',
-							}}
-							onClick={() => propertyRoomSelectHandler(2)}
-						>
-							2
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.roomsList?.includes(3) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.roomsList?.includes(3) ? undefined : 'none',
-							}}
-							onClick={() => propertyRoomSelectHandler(3)}
-						>
-							3
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.roomsList?.includes(4) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.roomsList?.includes(4) ? undefined : 'none',
-								borderRight: searchFilter?.search?.roomsList?.includes(4) ? undefined : 'none',
-							}}
-							onClick={() => propertyRoomSelectHandler(4)}
-						>
-							4
+							IMPORT
 						</Button>
 						<Button
 							sx={{
 								borderRadius: '0 12px 12px 0',
-								border: searchFilter?.search?.roomsList?.includes(5) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								border: searchFilter?.search?.manufactureList?.includes(PropertyManufacture.DOMESTIC)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.manufactureList?.includes(PropertyManufacture.DOMESTIC)
+									? undefined
+									: 'none',
+								background: searchFilter?.search?.manufactureList?.includes(PropertyManufacture.DOMESTIC)
+									? '#f8b1ed'
+									: '',
+								color: searchFilter?.search?.manufactureList?.includes(PropertyManufacture.DOMESTIC)
+									? '#fff '
+									: '#181a20;',
 							}}
-							onClick={() => propertyRoomSelectHandler(5)}
+							onClick={() => propertyManufactureSelectHandler(PropertyManufacture.DOMESTIC)}
 						>
-							5+
+							DOMESTIC
 						</Button>
 					</Stack>
 				</Stack>
+
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Bedrooms</Typography>
+					<Typography className={'title'}>Property Transmission</Typography>
 					<Stack className="button-group">
 						<Button
 							sx={{
 								borderRadius: '12px 0 0 12px',
-								border: !searchFilter?.search?.bedsList ? '2px solid #181A20' : '1px solid #b9b9b9',
+								border: !searchFilter?.search?.transmissionList ? '2px solid #f59fe8' : '1px solid #b9b9b9',
+								background: !searchFilter?.search?.transmissionList ? '#f8b1ed ' : '',
+								color: !searchFilter?.search?.transmissionList ? '#fff ' : '#181a20;',
 							}}
-							onClick={() => propertyBedSelectHandler(0)}
+							onClick={() => propertyTransmissionSelectHandler('')}
 						>
 							Any
 						</Button>
 						<Button
 							sx={{
 								borderRadius: 0,
-								border: searchFilter?.search?.bedsList?.includes(1) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(1) ? undefined : 'none',
+								border: searchFilter?.search?.transmissionList?.includes(PropertyTransmission.AUTOMATIC)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.transmissionList?.includes(PropertyTransmission.AUTOMATIC)
+									? undefined
+									: 'none',
+								background: searchFilter?.search?.transmissionList?.includes(PropertyTransmission.AUTOMATIC)
+									? '#f8b1ed'
+									: '',
+								color: searchFilter?.search?.transmissionList?.includes(PropertyTransmission.AUTOMATIC)
+									? '#fff '
+									: '#181a20;',
 							}}
-							onClick={() => propertyBedSelectHandler(1)}
+							onClick={() => propertyTransmissionSelectHandler(PropertyTransmission.AUTOMATIC)}
 						>
-							1
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.bedsList?.includes(2) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(2) ? undefined : 'none',
-							}}
-							onClick={() => propertyBedSelectHandler(2)}
-						>
-							2
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.bedsList?.includes(3) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(3) ? undefined : 'none',
-							}}
-							onClick={() => propertyBedSelectHandler(3)}
-						>
-							3
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.bedsList?.includes(4) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(4) ? undefined : 'none',
-								// borderRight: false ? undefined : 'none',
-							}}
-							onClick={() => propertyBedSelectHandler(4)}
-						>
-							4
+							AUTOMAT
 						</Button>
 						<Button
 							sx={{
 								borderRadius: '0 12px 12px 0',
-								border: searchFilter?.search?.bedsList?.includes(5) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(5) ? undefined : 'none',
+								border: searchFilter?.search?.transmissionList?.includes(PropertyTransmission.MANUAL)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.transmissionList?.includes(PropertyTransmission.MANUAL)
+									? undefined
+									: 'none',
+								background: searchFilter?.search?.transmissionList?.includes(PropertyTransmission.MANUAL)
+									? '#f8b1ed'
+									: '',
+								color: searchFilter?.search?.transmissionList?.includes(PropertyTransmission.MANUAL)
+									? '#fff '
+									: '#181a20;',
 							}}
-							onClick={() => propertyBedSelectHandler(5)}
+							onClick={() => propertyTransmissionSelectHandler(PropertyTransmission.MANUAL)}
 						>
-							5+
+							MANUAL
 						</Button>
 					</Stack>
 				</Stack>
+
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Options</Typography>
-					<Stack className={'input-box'}>
-						<Checkbox
-							id={'Barter'}
-							className="property-checkbox"
-							color="default"
-							size="small"
-							value={'propertyBarter'}
-							checked={(searchFilter?.search?.options || []).includes('propertyBarter')}
-							onChange={propertyOptionSelectHandler}
-						/>
-						<label htmlFor={'Barter'} style={{ cursor: 'pointer' }}>
-							<Typography className="propert-type">Barter</Typography>
-						</label>
-					</Stack>
-					<Stack className={'input-box'}>
-						<Checkbox
-							id={'Rent'}
-							className="property-checkbox"
-							color="default"
-							size="small"
-							value={'propertyRent'}
-							checked={(searchFilter?.search?.options || []).includes('propertyRent')}
-							onChange={propertyOptionSelectHandler}
-						/>
-						<label htmlFor={'Rent'} style={{ cursor: 'pointer' }}>
-							<Typography className="propert-type">Rent</Typography>
-						</label>
+					<Typography className={'title'}>Property Fuel</Typography>
+					<Stack className="button-group">
+						<Button
+							sx={{
+								borderRadius: '12px 0 0 12px',
+								border: !searchFilter?.search?.fuelList ? '2px solid #f59fe8' : '1px solid #b9b9b9',
+								background: !searchFilter?.search?.fuelList ? '#f8b1ed ' : '',
+								color: !searchFilter?.search?.fuelList ? '#fff ' : '#181a20;',
+							}}
+							onClick={() => propertyFuelSelectHandler('')}
+						>
+							Any
+						</Button>
+						<Button
+							sx={{
+								borderRadius: 0,
+								border: searchFilter?.search?.fuelList?.includes(PropertyFuel.GASOLINE)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.fuelList?.includes(PropertyFuel.GASOLINE) ? undefined : 'none',
+								background: searchFilter?.search?.fuelList?.includes(PropertyFuel.GASOLINE) ? '#f8b1ed' : '',
+								color: searchFilter?.search?.fuelList?.includes(PropertyFuel.GASOLINE) ? '#fff ' : '#181a20;',
+							}}
+							onClick={() => propertyFuelSelectHandler(PropertyFuel.GASOLINE)}
+						>
+							GASOLINE
+						</Button>
+						<Button
+							sx={{
+								borderRadius: 0,
+								border: searchFilter?.search?.fuelList?.includes(PropertyFuel.DIESEL)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.fuelList?.includes(PropertyFuel.DIESEL) ? undefined : 'none',
+								background: searchFilter?.search?.fuelList?.includes(PropertyFuel.DIESEL) ? '#f8b1ed' : '',
+								color: searchFilter?.search?.fuelList?.includes(PropertyFuel.DIESEL) ? '#fff ' : '#181a20;',
+							}}
+							onClick={() => propertyFuelSelectHandler(PropertyFuel.DIESEL)}
+						>
+							DIESEL
+						</Button>
+						<Button
+							sx={{
+								borderRadius: 0,
+								border: searchFilter?.search?.fuelList?.includes(PropertyFuel.LPG)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.fuelList?.includes(PropertyFuel.LPG) ? undefined : 'none',
+								background: searchFilter?.search?.fuelList?.includes(PropertyFuel.LPG) ? '#f8b1ed' : '',
+								color: searchFilter?.search?.fuelList?.includes(PropertyFuel.LPG) ? '#fff ' : '#181a20;',
+							}}
+							onClick={() => propertyFuelSelectHandler(PropertyFuel.LPG)}
+						>
+							LPG
+						</Button>
+						<Button
+							sx={{
+								borderRadius: 0,
+								border: searchFilter?.search?.fuelList?.includes(PropertyFuel.ELECTR)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.fuelList?.includes(PropertyFuel.ELECTR) ? undefined : 'none',
+								borderRight: searchFilter?.search?.fuelList?.includes(PropertyFuel.ELECTR) ? undefined : 'none',
+								background: searchFilter?.search?.fuelList?.includes(PropertyFuel.ELECTR) ? '#f8b1ed' : '',
+								color: searchFilter?.search?.fuelList?.includes(PropertyFuel.ELECTR) ? '#fff ' : '#181a20;',
+							}}
+							onClick={() => propertyFuelSelectHandler(PropertyFuel.ELECTR)}
+						>
+							ELECTR
+						</Button>
+						<Button
+							sx={{
+								borderRadius: '0 12px 12px 0',
+								border: searchFilter?.search?.fuelList?.includes(PropertyFuel.HYBRID)
+									? '2px solid #f59fe8'
+									: '1px solid #b9b9b9',
+								background: searchFilter?.search?.fuelList?.includes(PropertyFuel.HYBRID) ? '#f8b1ed' : '',
+								color: searchFilter?.search?.fuelList?.includes(PropertyFuel.HYBRID) ? '#fff ' : '#181a20;',
+							}}
+							onClick={() => propertyFuelSelectHandler(PropertyFuel.HYBRID)}
+						>
+							HYBRID
+						</Button>
 					</Stack>
 				</Stack>
+
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Square meter</Typography>
-					<Stack className="square-year-input">
+					<Typography className={'title'}>Made Year</Typography>
+					<Stack className="mileage-year-input">
 						<FormControl>
 							<InputLabel id="demo-simple-select-label">Min</InputLabel>
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
-								value={searchFilter?.search?.squaresRange?.start ?? 0}
+								value={yearCheck.start.toString()}
+								onChange={yearStartChangeHandler}
 								label="Min"
-								onChange={(e: any) => propertySquareHandler(e, 'start')}
 								MenuProps={MenuProps}
 							>
-								{propertySquare.map((square: number) => (
-									<MenuItem
-										value={square}
-										disabled={(searchFilter?.search?.squaresRange?.end || 0) < square}
-										key={square}
-									>
-										{square}
+								{propertyYears?.slice(0)?.map((year: number) => (
+									<MenuItem value={year} disabled={yearCheck.end <= year} key={year}>
+										{year}
 									</MenuItem>
 								))}
 							</Select>
@@ -739,27 +1056,83 @@ const Filter = (props: FilterType) => {
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
-								value={searchFilter?.search?.squaresRange?.end ?? 500}
+								value={yearCheck.end.toString()}
+								onChange={yearEndChangeHandler}
+								displayEmpty
 								label="Max"
-								onChange={(e: any) => propertySquareHandler(e, 'end')}
 								MenuProps={MenuProps}
 							>
-								{propertySquare.map((square: number) => (
+								{propertyYears
+									?.slice(0)
+									.reverse()
+									.map((year: number) => (
+										<MenuItem value={year} disabled={yearCheck.start >= year} key={year}>
+											{year}
+										</MenuItem>
+									))}
+							</Select>
+						</FormControl>
+					</Stack>
+				</Stack>
+
+				<Stack className={'find-your-home'} mb={'30px'}>
+					<Typography className={'title'}>Mileage</Typography>
+					<Stack className="mileage-year-input">
+						<FormControl>
+							<InputLabel id="demo-simple-select-label">Min</InputLabel>
+							<Select
+								labelId="demo-simple-select-label"
+								id="demo-simple-select"
+								value={searchFilter?.search?.drivenDistanceRange?.start ?? 0}
+								label="Min"
+								onChange={(e: any) => propertyMileageHandler(e, 'start')}
+								MenuProps={MenuProps}
+							>
+								{propertyMileage.map((mileage: number) => (
 									<MenuItem
-										value={square}
-										disabled={(searchFilter?.search?.squaresRange?.start || 0) > square}
-										key={square}
+										value={mileage}
+										disabled={
+											searchFilter?.search?.drivenDistanceRange?.end !== undefined &&
+											mileage > searchFilter?.search?.drivenDistanceRange?.end
+										}
+										key={mileage}
 									>
-										{square}
+										{mileage}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+						<div className="central-divider"></div>
+						<FormControl>
+							<InputLabel id="demo-simple-select-label">Max</InputLabel>
+							<Select
+								labelId="demo-simple-select-label"
+								id="demo-simple-select"
+								value={searchFilter?.search?.drivenDistanceRange?.end ?? 500000}
+								label="Max"
+								onChange={(e: any) => propertyMileageHandler(e, 'end')}
+								MenuProps={MenuProps}
+							>
+								{propertyMileage.map((mileage: number) => (
+									<MenuItem
+										value={mileage}
+										disabled={
+											searchFilter?.search?.drivenDistanceRange?.start !== undefined &&
+											mileage < searchFilter?.search?.drivenDistanceRange?.start
+										}
+										key={mileage}
+									>
+										{mileage}
 									</MenuItem>
 								))}
 							</Select>
 						</FormControl>
 					</Stack>
 				</Stack>
+
 				<Stack className={'find-your-home'}>
 					<Typography className={'title'}>Price Range</Typography>
-					<Stack className="square-year-input">
+					<Stack className="mileage-year-input">
 						<input
 							type="number"
 							placeholder="$ min"

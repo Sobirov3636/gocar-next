@@ -6,11 +6,11 @@ const thisYear = new Date().getFullYear();
 
 export const propertyYears: any = [];
 
-for (let i = 1970; i <= thisYear; i++) {
+for (let i = 2000; i <= thisYear; i++) {
 	propertyYears.push(String(i));
 }
 
-export const propertySquare = [0, 25, 50, 75, 100, 125, 150, 200, 300, 500];
+export const propertyMileage = [0, 10000, 50000, 75000, 100000, 125000, 150000, 200000, 300000, 500000];
 
 export const Messages = {
 	error1: 'Something went wrong!',

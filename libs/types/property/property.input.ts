@@ -41,7 +41,7 @@ interface PISearch {
 	fuelList?: PropertyFuel[];
 	transmissionList?: PropertyTransmission[];
 	options?: string[];
-	manufacture?: PropertyManufacture;
+	manufactureList?: PropertyManufacture[];
 	pricesRange?: Range;
 	manufacturedYearRange?: ManufacturedYearRange;
 	drivenDistanceRange?: DrivenDistanceRange;

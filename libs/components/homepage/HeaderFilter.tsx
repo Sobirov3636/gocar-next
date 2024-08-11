@@ -6,7 +6,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { propertySquare, propertyYears } from '../../config';
 import { PropertyLocation, PropertyType, PropertyManufacture, PropertyImported } from '../../enums/property.enum';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
@@ -158,19 +157,19 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		[searchFilter],
 	);
 
-	const propertyManufactureSelectHandler = useCallback(
+	const propertyManufactureListSelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
 					...searchFilter,
 					search: {
 						...searchFilter.search,
-						manufacture: value,
+						manufactureList: value,
 					},
 				});
 				locationStateChangeHandler();
 			} catch (err: any) {
-				console.log('ERROR, propertyManufactureSelectHandler:', err);
+				console.log('ERROR, propertyManufactureListSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -192,8 +191,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				delete searchFilter.search.typeList;
 			}
 
-			if (searchFilter?.search?.manufacture?.length == 0) {
-				delete searchFilter.search.manufacture;
+			if (searchFilter?.search?.manufactureList?.length == 0) {
+				delete searchFilter.search.manufactureList;
 			}
 
 			if (searchFilter?.search?.options?.length == 0) {
@@ -218,7 +217,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					<Stack className={'select-box'}>
 						<Box className={`box ${openManufacture ? 'on' : ''}`} onClick={manufactureStateChangeHandler}>
 							<span>
-								{searchFilter?.search?.manufacture ? `${searchFilter?.search?.manufacture}` : t('Manufacture')}
+								{searchFilter?.search?.manufactureList ? `${searchFilter?.search?.manufactureList}` : t('Manufacture')}
 							</span>
 							<ExpandMoreIcon />
 						</Box>
@@ -241,14 +240,14 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					{/*MENU */}
 
 					<div className={`filter-manufactue ${openManufacture ? 'on' : ''}`} ref={manufactureRef}>
-						{propertyManufcature.map((manufacture: string) => {
+						{propertyManufcature.map((manufactureList: string) => {
 							return (
 								<div
-									style={{ backgroundImage: `url(/img/banner/${manufacture}.png)` }}
-									onClick={() => propertyManufactureSelectHandler(manufacture)}
-									key={manufacture}
+									style={{ backgroundImage: `url(/img/banner/${manufactureList}.png)` }}
+									onClick={() => propertyManufactureListSelectHandler(manufactureList)}
+									key={manufactureList}
 								>
-									<span>{manufacture}</span>
+									<span>{manufactureList}</span>
 								</div>
 							);
 						})}
@@ -289,9 +288,9 @@ HeaderFilter.defaultProps = {
 		page: 1,
 		limit: 9,
 		search: {
-			squaresRange: {
+			drivenDistanceRange: {
 				start: 0,
-				end: 500,
+				end: 500000,
 			},
 			pricesRange: {
 				start: 0,
