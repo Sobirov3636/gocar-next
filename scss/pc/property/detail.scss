@@ -201,7 +201,7 @@
 						width: 100%;
 						height: auto;
 						flex-direction: row;
-						gap: 47.5px;
+						gap: 30px;
 						.option {
 							width: auto;
 							height: auto;
@@ -335,12 +335,29 @@
 						}
 						.image-box {
 							width: 100%;
-							height: 510px;
+							height: auto;
+							padding-bottom: 20px;
 							border: 1px solid #c4c4c4;
-							img {
-								width: 100%;
-								height: 100%;
-								object-fit: cover;
+							.box-container {
+								display: flex;
+								align-items: center;
+								margin-left: 20px;
+								margin-top: 20px;
+
+								.icon-box {
+									width: 56px;
+									height: 50px;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									margin-right: 50px;
+									border-radius: 12px;
+									border: 1px solid #ddd;
+									img {
+										width: 20px;
+										height: 20px;
+									}
+								}
 							}
 						}
 					}
