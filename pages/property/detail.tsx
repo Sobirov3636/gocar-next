@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, Checkbox, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -72,7 +72,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		error: getPropertyError,
 		refetch: getPropertyRefetch,
 	} = useQuery(GET_PROPERTY, {
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'network-only',
 		variables: { input: propertyId },
 		skip: !propertyId,
 		notifyOnNetworkStatusChange: true,
@@ -201,6 +201,15 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setCommentInquiry({ ...commentInquiry });
 	};
 
+	// LOADING...
+	if (getPropertyLoading) {
+		return (
+			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1080px' }}>
+				<CircularProgress size={'4rem'} />
+			</Stack>
+		);
+	}
+
 	if (device === 'mobile') {
 		return <div>PROPERTY DETAIL PAGE</div>;
 	} else {
@@ -292,10 +301,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
-									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-										alt={'main-image'}
-									/>
+									<img src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : ''} alt={'Loading...'} />
 								</Stack>
 								<Stack className={'sub-images'}>
 									{property?.propertyImages.map((subImg: string) => {
