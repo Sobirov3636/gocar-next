@@ -46,22 +46,22 @@ const withLayoutBasic = (Component: any) => {
 				case '/mypage':
 					title = 'my page';
 					desc = 'Cars / For Sale';
-					bgImage = '/img/banner/header1.svg';
+					bgImage = '/img/banner/04.jpg';
 					break;
 				case '/community':
 					title = 'Community';
 					desc = 'Cars / For Sale';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/single-3.jpg';
 					break;
 				case '/community/detail':
 					title = 'Community Detail';
 					desc = 'Cars / For Sale';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/single-1.jpg';
 					break;
 				case '/cs':
 					title = 'CS';
 					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/02.jpg';
 					break;
 				case '/account/join':
 					title = 'Login/Signup';
@@ -72,7 +72,7 @@ const withLayoutBasic = (Component: any) => {
 				case '/member':
 					title = 'Member Page';
 					desc = 'Cars / For Sale';
-					bgImage = '/img/banner/header1.svg';
+					bgImage = '/img/banner/04.jpg';
 					break;
 				default:
 					break;
