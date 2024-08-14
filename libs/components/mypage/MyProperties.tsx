@@ -3,13 +3,16 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from './PropertyCard';
-import { useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Property } from '../../types/property/property';
 import { DealerPropertiesInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
 import { PropertyStatus } from '../../enums/property.enum';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
+import { UPDATE_PROPERTY } from '../../../apollo/user/mutation';
+import { GET_DEALER_PROPERTIES } from '../../../apollo/user/query';
+import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -20,6 +23,22 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const router = useRouter();
 
 	/** APOLLO REQUESTS **/
+	const [updateProperty] = useMutation(UPDATE_PROPERTY);
+
+	const {
+		loading: getDealerPropertiesLoading,
+		data: getDealerPropertiesData,
+		error: getDealerPropertiesError,
+		refetch: getDealerPropertiesRefetch,
+	} = useQuery(GET_DEALER_PROPERTIES, {
+		fetchPolicy: 'network-only',
+		variables: { input: searchFilter },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setDealerProperties(data?.getDealerProperties?.list);
+			setTotal(data?.getDealerProperties?.metaCounter[0]?.total);
+		},
+	});
 
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
@@ -30,9 +49,42 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		setSearchFilter({ ...searchFilter, search: { propertyStatus: value } });
 	};
 
-	const deletePropertyHandler = async (id: string) => {};
+	const deletePropertyHandler = async (id: string) => {
+		try {
+			if (await sweetConfirmAlert(`Are you sure delete to this property?`)) {
+				await updateProperty({
+					variables: {
+						input: {
+							_id: id,
+							propertyStatus: 'DELETE',
+						},
+					},
+				});
 
-	const updatePropertyHandler = async (status: string, id: string) => {};
+				await getDealerPropertiesRefetch({ input: searchFilter });
+			}
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
+
+	const updatePropertyHandler = async (status: string, id: string) => {
+		try {
+			if (await sweetConfirmAlert(`Are you sure to change to ${status} status?`)) {
+				await updateProperty({
+					variables: {
+						input: {
+							_id: id,
+							propertyStatus: status,
+						},
+					},
+				});
+				await getDealerPropertiesRefetch({ input: searchFilter });
+			}
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
 
 	if (user?.memberType !== 'DEALER') {
 		router.back();
@@ -70,7 +122,9 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Date Published</Typography>
 							<Typography className="title-text">Status</Typography>
 							<Typography className="title-text">View</Typography>
-							<Typography className="title-text">Action</Typography>
+							{searchFilter.search.propertyStatus === 'ACTIVE' && (
+								<Typography className="title-text">Action</Typography>
+							)}
 						</Stack>
 
 						{dealerProperties?.length === 0 ? (
