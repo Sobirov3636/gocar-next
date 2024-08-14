@@ -9,7 +9,6 @@ interface TopDealerProps {
 }
 const TopDealerCard = (props: TopDealerProps) => {
 	const { dealer } = props;
-	console.log('dddd:', dealer);
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const dealerImage = dealer?.memberImage

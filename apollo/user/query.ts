@@ -18,21 +18,22 @@ export const GET_DEALERS = gql`
 				memberImage
 				memberAddress
 				memberDesc
+				memberWarnings
+				memberBlocks
 				memberProperties
-				memberArticles
-				memberFollowers
-				memberFollowings
+				memberRank
 				memberPoints
 				memberLikes
 				memberViews
-				memberComments
-				memberRank
-				memberWarnings
-				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
 				accessToken
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
 			}
 			metaCounter {
 				total

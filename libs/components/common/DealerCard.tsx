@@ -12,10 +12,11 @@ import { userVar } from '../../../apollo/store';
 
 interface DealerCardProps {
 	dealer: any;
+	likeMemberHandler: any;
 }
 
 const DealerCard = (props: DealerCardProps) => {
-	const { dealer } = props;
+	const { dealer, likeMemberHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = dealer?.memberImage
@@ -64,7 +65,8 @@ const DealerCard = (props: DealerCardProps) => {
 							<RemoveRedEyeIcon />
 						</IconButton>
 						<Typography className="view-cnt">{dealer?.memberViews}</Typography>
-						<IconButton color={'default'}>
+						<IconButton color={'default'} onClick={() => likeMemberHandler(user, dealer?._id)}>
+							{console.log(dealer?.meLiked)}
 							{dealer?.meLiked && dealer?.meLiked[0]?.myFavorite ? (
 								<FavoriteIcon color={'primary'} />
 							) : (

@@ -9,6 +9,12 @@ import DealerCard from '../../libs/components/common/DealerCard';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
+import { useMutation, useQuery } from '@apollo/client';
+import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { GET_DEALERS } from '../../apollo/user/query';
+import { T } from '../../libs/types/common';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { Messages } from '../../libs/config';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -32,6 +38,23 @@ const DealerList: NextPage = ({ initialInput, ...props }: any) => {
 	const [searchText, setSearchText] = useState<string>('');
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
+
+	const {
+		loading: getDealersLoading,
+		data: getDealersData,
+		error: getDealersError,
+		refetch: getDealersRefetch,
+	} = useQuery(GET_DEALERS, {
+		fetchPolicy: 'network-only',
+		variables: { input: searchFilter },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setDealers(data?.getDealers?.list);
+			setTotal(data?.getDealers?.metaCounter[0]?.total);
+		},
+	});
+	console.log('dealerrr:', dealers);
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.input) {
@@ -89,6 +112,23 @@ const DealerList: NextPage = ({ initialInput, ...props }: any) => {
 		setCurrentPage(value);
 	};
 
+	// LIKE MEMBER HANDLER
+	const likeMemberHandler = async (user: T, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Messages.error2);
+
+			await likeTargetMember({ variables: { input: id } });
+
+			await getDealersRefetch({ input: searchFilter });
+
+			await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+			console.log('ERROR, likeTargetMemberHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
 	if (device === 'mobile') {
 		return <h1>DEALERS PAGE MOBILE</h1>;
 	} else {
@@ -143,7 +183,7 @@ const DealerList: NextPage = ({ initialInput, ...props }: any) => {
 							</div>
 						) : (
 							dealers.map((dealer: Member) => {
-								return <DealerCard dealer={dealer} key={dealer._id} />;
+								return <DealerCard dealer={dealer} likeMemberHandler={likeMemberHandler} key={dealer._id} />;
 							})
 						)}
 					</Stack>

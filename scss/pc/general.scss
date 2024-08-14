@@ -165,7 +165,7 @@
 	flex-direction: column;
 	.dealer-img {
 		border-radius: 12px;
-		width: 233px;
+		width: 273px;
 		height: 273px;
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
@@ -173,9 +173,9 @@
 		div {
 			position: absolute;
 			padding: 12px;
-			top: 12px;
-			left: 12px;
-			border-radius: 6px;
+			bottom: 90px;
+			right: 12px;
+			border-radius: 20px;
 			background: #eb6753;
 			color: #fff;
 			font-family: $font;
