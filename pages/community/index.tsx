@@ -83,7 +83,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		setSearchCommunity({ ...searchCommunity, page: value });
 	};
 
-	// LIKE MEMBER HANDLER
+	// LIKE ARTICLE HANDLER
 	const likeArticleHandler = async (e: any, user: T, id: string) => {
 		try {
 			e.stopPropagation();
@@ -96,7 +96,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('ERROR, likeTargetMemberHandler:', err.message);
+			console.log('ERROR, likeArticleHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

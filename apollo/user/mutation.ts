@@ -274,8 +274,8 @@ export const UPDATE_BOARD_ARTICLE = gql`
 `;
 
 export const LIKE_TARGET_BOARD_ARTICLE = gql`
-	mutation LikeTargetBoardArticle($input: String!) {
-		likeTargetBoardArticle(articleId: $input) {
+	mutation LikeTargetBoartArticle($input: String!) {
+		likeTargetBoartArticle(articleId: $input) {
 			_id
 			articleCategory
 			articleStatus

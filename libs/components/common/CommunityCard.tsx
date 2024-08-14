@@ -27,6 +27,8 @@ const CommunityCard = (props: CommunityCardProps) => {
 		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
 		: '/img/community/communityImg.png';
 
+	console.log('board:', boardArticle);
+
 	/** HANDLERS **/
 	const chooseArticleHandler = (e: React.SyntheticEvent, boardArticle: BoardArticle) => {
 		router.push(
