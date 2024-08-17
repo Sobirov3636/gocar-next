@@ -100,8 +100,6 @@ export const GET_PROPERTY = gql`
 			propertyPrice
 			propertyModel
 			propertyManufacturedYear
-			propertyRegistrationDate
-			propertyEngineDisplacement
 			propertyDrivenDistance
 			propertyViews
 			propertyLikes
@@ -170,8 +168,6 @@ export const GET_PROPERTIES = gql`
 				propertyPrice
 				propertyModel
 				propertyManufacturedYear
-				propertyRegistrationDate
-				propertyEngineDisplacement
 				propertyDrivenDistance
 				propertyViews
 				propertyLikes
@@ -244,8 +240,6 @@ export const GET_DEALER_PROPERTIES = gql`
 				propertyPrice
 				propertyModel
 				propertyManufacturedYear
-				propertyRegistrationDate
-				propertyEngineDisplacement
 				propertyDrivenDistance
 				propertyViews
 				propertyLikes
@@ -286,8 +280,6 @@ export const GET_FAVORITES = gql`
 				propertyPrice
 				propertyModel
 				propertyManufacturedYear
-				propertyRegistrationDate
-				propertyEngineDisplacement
 				propertyDrivenDistance
 				propertyViews
 				propertyLikes
@@ -355,8 +347,6 @@ export const GET_VISITED = gql`
 				propertyPrice
 				propertyModel
 				propertyManufacturedYear
-				propertyRegistrationDate
-				propertyEngineDisplacement
 				propertyDrivenDistance
 				propertyViews
 				propertyLikes

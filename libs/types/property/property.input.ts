@@ -25,8 +25,6 @@ export interface PropertyInput {
 	propertyPrice: number;
 	propertyModel: string;
 	propertyManufacturedYear: number;
-	propertyRegistrationDate: Date;
-	propertyEngineDisplacement: number;
 	propertyDrivenDistance: number;
 	propertyImages: string[];
 	propertyDesc?: string;

@@ -140,8 +140,6 @@ export const CREATE_PROPERTY = gql`
 			propertyPrice
 			propertyModel
 			propertyManufacturedYear
-			propertyRegistrationDate
-			propertyEngineDisplacement
 			propertyDrivenDistance
 			propertyViews
 			propertyLikes
@@ -177,8 +175,6 @@ export const UPDATE_PROPERTY = gql`
 			propertyPrice
 			propertyModel
 			propertyManufacturedYear
-			propertyRegistrationDate
-			propertyEngineDisplacement
 			propertyDrivenDistance
 			propertyViews
 			propertyLikes
@@ -214,8 +210,6 @@ export const LIKE_TARGET_PROPERTY = gql`
 			propertyPrice
 			propertyModel
 			propertyManufacturedYear
-			propertyRegistrationDate
-			propertyEngineDisplacement
 			propertyDrivenDistance
 			propertyViews
 			propertyLikes
