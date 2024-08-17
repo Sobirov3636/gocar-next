@@ -388,6 +388,9 @@ export const GET_VISITED = gql`
 					accessToken
 				}
 			}
+			metaCounter {
+				total
+			}
 		}
 	}
 `;
