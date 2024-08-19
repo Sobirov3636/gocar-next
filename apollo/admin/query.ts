@@ -49,48 +49,31 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 				_id
 				propertyType
 				propertyStatus
+				propertyFuel
+				propertyTransmission
+				propertyOptions
+				propertyManufacture
+				propertyDomestic
+				propertyImported
 				propertyLocation
 				propertyAddress
 				propertyTitle
 				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
+				propertyModel
+				propertyManufacturedYear
+				propertyDrivenDistance
 				propertyViews
 				propertyLikes
+				propertyComments
+				propertyRank
 				propertyImages
 				propertyDesc
-				propertyBarter
 				propertyRent
 				memberId
 				soldAt
 				deletedAt
-				constructedAt
 				createdAt
 				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
-					memberPoints
-					memberLikes
-					memberViews
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-				}
 			}
 			metaCounter {
 				total
