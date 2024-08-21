@@ -35,7 +35,7 @@ const NewMessage = (type: any) => {
 const Chat = () => {
 	const chatContentRef = useRef<HTMLDivElement>(null);
 	const [messagesList, setMessagesList] = useState([]);
-	const [onlineUsers, setOnlineUsers] = useState<number>(4);
+	const [onlineUsers, setOnlineUsers] = useState<number>(0);
 	const textInput = useRef(null);
 	const [message, setMessage] = useState<string>('');
 	const [open, setOpen] = useState(false);
