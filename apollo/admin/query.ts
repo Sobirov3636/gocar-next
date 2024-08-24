@@ -178,3 +178,46 @@ export const GET_COMMENTS = gql`
 		}
 	}
 `;
+
+/**************************
+ *        NOTICE        *
+ *************************/
+
+export const GET_ALL_NOTICES_BY_ADMIN = gql`
+	query GetAllNoticesByAdmin($input: AllNoticesInquiry!) {
+		getAllNoticesByAdmin(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				createdAt
+				updatedAt
+			}
+		}
+	}
+`;
+
+/**************************
+ *         FAQ       *
+ *************************/
+
+export const GET_ALL_FAQS_BY_ADMIN = gql`
+	query GetAllFaqsByAdmin($input: AllFaqsInquiry!) {
+		getAllFaqsByAdmin(input: $input) {
+			list {
+				_id
+				faqCategory
+				faqStatus
+				faqTitle
+				faqContent
+				faqViews
+				memberId
+				createdAt
+				updatedAt
+			}
+		}
+	}
+`;

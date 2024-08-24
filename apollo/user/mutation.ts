@@ -346,3 +346,44 @@ export const UNSUBSCRIBE = gql`
 		}
 	}
 `;
+
+/**************************
+ *         MESSAGE       *
+ *************************/
+export const CREATE_MESSAGE = gql`
+	mutation CreateMessage($input: MessageInput!) {
+		createMessage(input: $input) {
+			_id
+			messageStatus
+			senderName
+			senderPhone
+			senderEmail
+			messageDesc
+			messageRefId
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *         NOTIFICATION       *
+ *************************/
+export const UPDATE_NOTIFICATION = gql`
+	mutation UpdateNotification($input: NotificationUpdate!) {
+		updateNotification(input: $input) {
+			_id
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			authorId
+			receiverId
+			messageId
+			propertyId
+			articleId
+		}
+	}
+`;

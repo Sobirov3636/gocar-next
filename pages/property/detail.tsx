@@ -32,7 +32,8 @@ import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { PropertyOptions } from '../../libs/enums/property.enum';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { MessageInput } from '../../libs/types/message/message.input';
+import { CREATE_COMMENT, LIKE_TARGET_PROPERTY, CREATE_MESSAGE } from '../../apollo/user/mutation';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -59,10 +60,23 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentRefId: '',
 	});
 
+	const [insertMessageData, setInsertMessageData] = useState<MessageInput>({
+		senderName: '',
+		senderPhone: '',
+		senderEmail: '',
+		messageDesc: '',
+		messageRefId: '',
+	});
+	const [receiverId, setReceiverId] = useState<string>('');
+
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+
 	// CREATE COMMENT MUTATION
 	const [createComment] = useMutation(CREATE_COMMENT);
+
+	// CREATE MESSAGE MUTATION
+	const [createMessage] = useMutation(CREATE_MESSAGE);
 
 	/** GET PROPERTY **/
 
@@ -79,6 +93,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		onCompleted: (data: T) => {
 			if (data?.getProperty) setProperty(data?.getProperty);
 			if (data?.getProperty) setSlideImage(data?.getProperty?.propertyImages[0]);
+			if (data?.getProperty) setReceiverId(data?.getProperty?.memberId);
 		},
 	});
 
@@ -150,6 +165,17 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	}, [commentInquiry]);
 
+	/** Message **/
+
+	useEffect(() => {
+		if (receiverId) {
+			setInsertMessageData((prevData) => ({
+				...prevData,
+				messageRefId: receiverId,
+			}));
+		}
+	}, [receiverId]);
+
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
@@ -199,6 +225,31 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		commentInquiry.page = value;
 		setCommentInquiry({ ...commentInquiry });
+	};
+
+	/** -----------------Message----------------- **/
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setInsertMessageData({
+			...insertMessageData,
+			[name]: value,
+		});
+	};
+
+	const createMessageHandler = async () => {
+		try {
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!insertMessageData.senderName || !insertMessageData.senderEmail || !insertMessageData.messageDesc) {
+				throw new Error('Please fill in all required fields');
+			}
+			console.log('Message Data:', insertMessageData);
+			await createMessage({ variables: { input: insertMessageData } });
+			setInsertMessageData({ ...insertMessageData, senderName: '', senderPhone: '', senderEmail: '', messageDesc: '' });
+			await sweetTopSmallSuccessAlert('Message sent successfully!', 700);
+		} catch (err) {
+			console.log('Error:', err);
+			await sweetErrorHandling(err);
+		}
 	};
 
 	// LOADING...
@@ -695,24 +746,66 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 									</Stack>
 								</Stack>
+
+								{/* ----------------------------1------------------------ */}
+
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Name</Typography>
-									<input type={'text'} placeholder={'Enter your name'} />
+									<input
+										type={'text'}
+										placeholder={'Enter your name'}
+										name={'senderName'}
+										value={insertMessageData.senderName}
+										onChange={handleInputChange}
+										required={true}
+									/>
 								</Stack>
+
+								{/* ----------------------------2------------------------ */}
+
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Phone</Typography>
-									<input type={'text'} placeholder={'Enter your phone'} />
+									<input
+										type={'text'}
+										placeholder={'Enter your phone'}
+										name={'senderPhone'}
+										value={insertMessageData.senderPhone}
+										onChange={handleInputChange}
+										required={true}
+									/>
 								</Stack>
+
+								{/* ----------------------------3------------------------ */}
+
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Email</Typography>
-									<input type={'text'} placeholder={'creativelayers088'} />
+									<input
+										type={'text'}
+										placeholder={'yourEmail@mail.com'}
+										name={'senderEmail'}
+										value={insertMessageData.senderEmail}
+										onChange={handleInputChange}
+										required={true}
+									/>
 								</Stack>
+
+								{/* ----------------------------4------------------------ */}
+
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Message</Typography>
-									<textarea placeholder={'Hello, I am interested in \n' + '[Renovated property at  floor]'}></textarea>
+									<input
+										placeholder={'Hello, I am interested in \n' + '[Renovated property at  floor]'}
+										name="messageDesc"
+										value={insertMessageData.messageDesc}
+										onChange={handleInputChange}
+										multiple={true}
+									/>
 								</Stack>
+
+								{/* ----------------------------5------------------------ */}
+
 								<Stack className={'info-box'}>
-									<Button className={'send-message'}>
+									<Button onClick={createMessageHandler} className={'send-message'}>
 										<Typography className={'title'}>Send Message</Typography>
 										<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 											<g clipPath="url(#clip0_6975_593)">

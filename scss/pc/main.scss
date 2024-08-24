@@ -150,8 +150,50 @@ body::-webkit-scrollbar {
 						margin-left: 28px;
 						display: flex;
 						align-items: center;
-						.notification-icon {
-							color: white;
+						.icon-cala {
+							color: rgb(255, 255, 255);
+						}
+						.notification-box {
+							margin-left: 28px;
+							display: flex;
+							align-items: center;
+							position: relative;
+							.notification-icon {
+								color: white;
+								margin-right: 10px;
+							}
+							.counter {
+								width: 15px;
+								height: 15px;
+								background-color: red;
+								border-radius: 50%;
+								padding: 5px;
+								font-size: 15px;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								position: absolute;
+								top: -5px;
+								right: 35px;
+							}
+							.emaile-icon {
+								color: white;
+								margin-right: 10px;
+							}
+							.counter2 {
+								width: 15px;
+								height: 15px;
+								background-color: red;
+								border-radius: 50%;
+								padding: 5px;
+								font-size: 15px;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								position: absolute;
+								top: -5px;
+								right: -5px;
+							}
 						}
 						.btn-lang {
 							border-radius: 4px;
@@ -661,6 +703,19 @@ body::-webkit-scrollbar {
 		}
 	}
 
+	.ring {
+		width: 100px;
+		height: 100px;
+		border: 1px solid red;
+		.notification-button {
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			top: 100px;
+			right: 100px;
+		}
+	}
+
 	#footer {
 		position: relative;
 		padding: 60px 0px 18px 0px;
@@ -736,7 +791,8 @@ body::-webkit-scrollbar {
 						div {
 							padding: 20px 30px;
 							margin-top: 20px;
-							width: 667px;
+							// width: 667px;
+							width: 1000px;
 							height: 70px;
 							display: flex;
 							flex-direction: row;
@@ -744,6 +800,7 @@ body::-webkit-scrollbar {
 							box-sizing: border-box;
 							border-radius: 12px;
 							background: #212329;
+							border: 1px solid rgba(4, 58, 251, 0.591);
 							input {
 								margin-right: 10px;
 								width: 85%;
