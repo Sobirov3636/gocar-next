@@ -1,7 +1,26 @@
 import { Box, Button, Stack } from '@mui/material';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { userVar } from '../../../apollo/store';
+import { useReactiveVar } from '@apollo/client';
+import { sweetBasicAlert } from '../../sweetAlert';
 
 const Info = () => {
+	const user = useReactiveVar(userVar);
+	const router = useRouter();
+
+	const handleInventoryClick = () => {
+		router.push('/property');
+	};
+
+	const handleSellCarClick = () => {
+		if (user?.memberType === 'DEALER') {
+			router.push('/mypage?category=addProperty');
+		} else {
+			sweetBasicAlert('Only dealers add cars to sell. Please sign up as a dealer!');
+		}
+	};
+
 	return (
 		<Stack className="info-container">
 			<Stack className="container-box">
@@ -13,7 +32,7 @@ const Info = () => {
 							Our cars are delivered fully-registered with all requirements completed. We’ll deliver your car wherever
 							you are.
 						</p>
-						<Button className="btn" variant="contained" size="large">
+						<Button className="btn" variant="contained" size="large" onClick={handleInventoryClick}>
 							Inventory
 						</Button>
 					</Box>
@@ -27,7 +46,7 @@ const Info = () => {
 							Receive the absolute best value for your trade-in vehicle. We even handle all paperwork. Schedule
 							appointment!
 						</p>
-						<Button className="btn" variant="contained" size="large">
+						<Button className="btn" variant="contained" size="large" onClick={handleSellCarClick}>
 							Sell your car
 						</Button>
 					</Box>
