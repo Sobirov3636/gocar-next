@@ -73,6 +73,7 @@ const Footer = () => {
 				<Stack className={'main'}>
 					<Stack className={'left'}>
 						<Box component={'div'} className={'footer-box'}>
+							{/* @ts-ignore */}
 							<Box sx={{ display: 'flex', alignItems: 'center' }}>
 								<img src="/img/logo/logo.png" height="50px" width="80px" alt="" className={'logo'} />{' '}
 								<p style={{ fontSize: '25px' }}>GoCar</p>

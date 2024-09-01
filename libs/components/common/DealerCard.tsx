@@ -66,7 +66,6 @@ const DealerCard = (props: DealerCardProps) => {
 						</IconButton>
 						<Typography className="view-cnt">{dealer?.memberViews}</Typography>
 						<IconButton color={'default'} onClick={() => likeMemberHandler(user, dealer?._id)}>
-							{console.log(dealer?.meLiked)}
 							{dealer?.meLiked && dealer?.meLiked[0]?.myFavorite ? (
 								<FavoriteIcon color={'primary'} />
 							) : (
