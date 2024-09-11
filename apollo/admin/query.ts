@@ -74,6 +74,29 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 				deletedAt
 				createdAt
 				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberWarnings
+					memberBlocks
+					memberProperties
+					memberRank
+					memberPoints
+					memberLikes
+					memberViews
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
 			}
 			metaCounter {
 				total
